@@ -1,4 +1,6 @@
 import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'specijalni kljuc'
