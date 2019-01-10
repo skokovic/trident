@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+    nginx:
+        restart: always
+        image: nginx:1.15.8-alpine
+        links:
+            - app
+        ports:
+            - 8000:8000
+        volumes:
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        volumes_from:
+            - app
+    mongodb:
+        restart: always
+        build:
+            context: .
+            dockerfile: ./docker/mongo/Dockerfile
+        ports:
+            - 27017:27017
+        volumes:
+            - ./docker/mongo/data:/data/db
+    app:
+        restart: always
+        links:
+            - mongodb
+        build:
+            context: .
+            dockerfile: ./docker/app/Dockerfile
+        expose:
+            - 5000
+        entrypoint:
+            - /app-entrypoint.sh
+        volumes:
+            - .:/app
+
