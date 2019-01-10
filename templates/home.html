@@ -14,6 +14,25 @@
 				<div class="row">
 					 {% include 'navbar.html' %}
 				</div>
+                <form method="POST">
+                        <div>
+                            {% if current_user.is_authenticated %}
+                                <h2>Hi, {{ current_user.first_name }} {{ current_user.last_name }}!</h2>
+                                <br>
+                                <h3>{{ current_user.email }}</h3>
+                                <br>
+                                <a href="{{ url_for('weather') }}" class="button is-info">Find out the current weather around the world</a>
+                                <br>
+                                <a href="{{ url_for('logout') }}" class="button is-info">Logout</a>
+                            {% else %}
+                                <div>
+                                    <h1>Who are you?</h1>
+                                    <br>
+                                    <p><a href="{{ url_for('oauth_authorize', provider='facebook') }}" class="button is-info">Login with Facebook</a></p>
+                                </div>
+                            {% endif %}
+                        </div>
+                </form>
 				<div class="row">
 					 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width: 100% !important; padding-right: .5rem 1rem">
 						<ol class="carousel-indicators" style="height: 20%">
@@ -53,3 +72,22 @@
 		</body>
 </html>
 
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : os.environ.get('FACEBOOK_ID'),
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v3.1'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
