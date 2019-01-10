@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>What's the weather like?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+</head>
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Welcome to my first Web App!
+                </h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-4 is-4">
+                    <form method="POST">
+                        <div>
+                            {% if current_user.is_authenticated %}
+                                <h2>Hi, {{ current_user.first_name }} {{ current_user.last_name }}!</h2>
+                                <br>
+                                <h3>{{ current_user.email }}</h3>
+                                <br>
+                                <a href="{{ url_for('weather') }}" class="button is-info">Find out the current weather around the world</a>
+                                <br>
+                                <a href="{{ url_for('logout') }}" class="button is-info">Logout</a>
+                            {% else %}
+                                <div>
+                                    <h1>Who are you?</h1>
+                                    <br>
+                                    <p><a href="{{ url_for('oauth_authorize', provider='facebook') }}" class="button is-info">Login with Facebook</a></p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '2131939550179056',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v3.1'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
