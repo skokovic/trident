@@ -1,6 +1,6 @@
 import tmdbsimple as tmdb
 import pandas as pd
-import MovieStatistics as ms
+import movie_statistic as ms
 
 tmdbKey: str = "b2dd64617f8c64de2a3c3c0ada9f73ec"
 tmdb.API_KEY = tmdbKey
