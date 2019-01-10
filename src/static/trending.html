@@ -22,24 +22,27 @@
 			 		<div class="jumbotron jumbotron-fluid jumbotron_padding">
 					  <div class="container">
 					  	<!-- ovdje ide primljena lista sa svim navedenim i popunjava se for petljom -->
-					    <h3 class="display-6">Avatar</h3>
-					    <div class="row">
-					    	<div class="col-md-5"><img src="static/avatar_poster.jpg" style="height: 100%; width: auto;"></div>
-					    	<div class="col-md-6 about_movie" style="">
-					    		<div class="row">
-					    			<div class="col-md-3">Year</div>
-					    			<div class="col-md-3">2009</div>
-					    		</div>
-					    		<div class="row">
-					    			<div class="col-md-3">Genre</div>
-					    			<div class="col-md-3">SF</div>
-					    		</div>
-					    		<div class="row">
-					    			<div class="col-md-3">About</div>
-					    			<div class="col-md-3">smth</div>
-					    		</div>
-					    	</div>
-					    </div>
+						  {% for movie in trending_movies %}
+							<h3 class="display-6">{{movie['title']}}</h3>
+							<div class="row">
+								<div class="col-md-5"><img src="http://image.tmdb.org/t/p/w400/{{movie['poster_path']}}" style="height: 420px; width: auto;"></div>
+								<div class="col-md-7 about_movie" style="">
+									<div class="row">
+										<div class="col-md-4">Release date</div>
+										<div class="col-md-8">{{movie['release_date']}}</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">Genre</div>
+										<div class="col-md-3">SF</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">Overview</div>
+										<div class="col-md-8">{{movie['overview']}}</div>
+									</div>
+								</div>
+							</div>
+						  	<div style="padding-top: 10%"></div>
+						  {% endfor %}
 					  </div>
 					</div>
 				 </div>
