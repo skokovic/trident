@@ -36,6 +36,9 @@ coverage/
 .prospector.yml
 .coveragerc
 
+# login info
+.env
+
 # in case we run shippable tests don't include it
 shippable/
 
