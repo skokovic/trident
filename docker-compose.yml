@@ -11,6 +11,14 @@ services:
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
         volumes_from:
             - backend
+    mongodb:
+        extends:
+            file: docker-common.yml
+            service: mongodb
+        ports:
+            - 27017:27017
+        volumes:
+            - ./docker/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     postgres:
         extends:
             file: docker-common.yml
@@ -24,6 +32,7 @@ services:
             file: docker-common.yml
             service: django
         links:
+            - mongodb
             - postgres
         entrypoint:
             - /django-entrypoint.sh

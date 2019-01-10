@@ -4,6 +4,15 @@ services:
     nginx:
         restart: always
         image: nginx:1.15.8-alpine
+    mongodb:
+        restart: always
+        build:
+            context: .
+            dockerfile: ./docker/mongo/Dockerfile
+        expose:
+            - 27017
+        volumes:
+            - ./docker/mongo/data:/data/db
     postgres:
         restart: always
         build:
