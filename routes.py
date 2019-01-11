@@ -1,9 +1,19 @@
 from flask import render_template, flash, redirect, url_for, request
-from app import app, lm, baza
+from __init__ import app, lm, baza
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
-from app.oauth import OAuthSignIn
+from models import User
+from oauth import OAuthSignIn
 import requests
+
+
+import movie_statistic
+SECRET_KEY = '123'
+DEBUG = True
+dbName = '\0'
+app.debug = DEBUG
+app.secret_key = SECRET_KEY
+
+
 
 @app.route('/')
 @app.route('/index')
@@ -94,6 +104,27 @@ def oauth_callback(provider):
     login_user(User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name']), remember= True, force= True)
     return redirect(url_for('index'))
 
+@app.route('/home')
+def home():
+    upcoming = movie_statistic.get_upcoming_movies()
+    return render_template('home.html', upcoming = upcoming )
+
+@app.route('/my_profile.html')
+def profile():
+    return render_template('my_profile.html')
+
+@app.route('/trending.html')
+def trending():
+    trending_movies = movie_statistic.get_trending()
+    return render_template('trending.html', trending_movies = trending_movies)
+
+
+
+def main():
+    app.run()
+
+if __name__ == '__main__':
+    main()
 
 
 #    is_authenticated:  a property that is True if the user has valid credentials or False otherwise. User is logged in or not.

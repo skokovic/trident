@@ -1,5 +1,5 @@
 from flask import Flask
-from app.config import Config
+from config import Config
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_pymongo import PyMongo
@@ -14,4 +14,3 @@ lm.init_app(app) # ?????
 bootstrap = Bootstrap(app)
 baza = PyMongo(app)
 
-from app import routes
