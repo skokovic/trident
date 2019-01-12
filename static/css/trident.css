@@ -194,7 +194,7 @@ body{
 .thumb_row{
     position: absolute;
     bottom: 50;
-    right: 150;
+    right: 200;
 }
 .thumb_up{
     padding-left: 0% !important;
@@ -216,3 +216,4 @@ body{
  color:#FFD700;
  cursor: pointer;
 }
+\

@@ -141,6 +141,7 @@
    }(document, 'script', 'facebook-jssdk'));
 
    function like_click(movie){
+
 		$.ajax({
 			type: "POST",
 			url: "{{ url_for("movie") }}",
