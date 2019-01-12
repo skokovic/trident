@@ -10,7 +10,8 @@
 		<ul class="navbar-nav mr-auto">
 		  <li class="nav-item active">
 		    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-		  </li>
+			</li>
+			{% if current_user.is_authenticated %}
 		  <li class="nav-item">
 		    <a class="nav-link" href="#">Friends</a>
 		  </li>
@@ -25,15 +26,17 @@
 		    </div>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" href="my_profile.html">My profile <span class="sr-only">(current)</span></a>
-		  </li>
+		    <a class="nav-link" href="my_profile.html">{{current_user.first_name}} <span class="sr-only">(current)</span></a>
+			</li>
+			{% else %}
+
+			{% endif %}
 		</ul>
 		<form class="form-inline my-3 my-lg-0">
 			  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
 			  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search movies</button>
 		</form>
 		{% if current_user.is_authenticated %}
-				<h2>Hi, {{ current_user.first_name }}!</h2>
 				<form action="/logout" class="form-inline my-1 my-lg-0" style="margin-left:5%">
 						<button  class="btn btn-primary login_button" type="submit">Logout</button>
 				</form>
