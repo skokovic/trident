@@ -1,9 +1,10 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from __init__ import app, lm, baza
 from flask_login import current_user, login_user, logout_user, login_required
 from models import User
 from oauth import OAuthSignIn
 import requests
+
 
 
 import movie_statistic
@@ -18,10 +19,15 @@ app.secret_key = SECRET_KEY
 @app.route('/')
 @app.route('/home')
 def home():
-   if not current_user.is_anonymous:
-       print(current_user.get_id())
-   upcoming = movie_statistic.get_upcoming_movies()
-   return render_template('home.html', upcoming=upcoming)
+    if not current_user.is_anonymous:
+        print(current_user.get_id())
+    upcoming = movie_statistic.get_most_popular_movies_today(10)
+    return render_template('home.html', upcoming=upcoming)
+
+
+@app.route('/login_page')
+def login():
+    return render_template('login_page.html')
 
 @app.route('/logout')
 @login_required
@@ -77,12 +83,14 @@ def load_user(id):
     user = baza.db.Users.find_one({'user_id': int(id)})
     return User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'])
 
+
 @app.route('/authorize/<provider>')
 def oauth_authorize(provider):
     if not current_user.is_anonymous:
         return redirect(url_for('home'))
     oauth = OAuthSignIn.get_provider(provider)
     return oauth.authorize()
+
 
 @app.route('/callback/<provider>')
 def oauth_callback(provider):
@@ -106,20 +114,24 @@ def oauth_callback(provider):
     return redirect(url_for('home'))
 
 
-
 @app.route('/my_profile.html')
 def profile():
     return render_template('my_profile.html')
+
 
 @app.route('/trending.html')
 def trending():
     trending_movies = movie_statistic.get_trending()
     return render_template('trending.html', trending_movies = trending_movies)
 
-
+@app.route('/movie', methods=['POST'])
+def movie():
+    data = request.get_json()
+    return jsonify(status="success", data=data)
 
 def main():
-    app.run(host='0.0.0.0')
+    app.run()
+
 
 if __name__ == '__main__':
     main()
