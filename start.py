@@ -81,7 +81,7 @@ def weather():
 @lm.user_loader   #User Loader Function - Flask needs the application's help in loading a user
 def load_user(id):
     user = baza.db.Users.find_one({'user_id': int(id)})
-    return User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'])
+    return User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'], user['gender'], user['location'], user['age_range'], user['likes'])
 
 
 @app.route('/authorize/<provider>')
@@ -98,7 +98,7 @@ def oauth_callback(provider):
         return redirect(url_for('home'))
 
     oauth = OAuthSignIn.get_provider(provider)
-    user_id, social_id, first_name, last_name, email = oauth.callback()
+    user_id, social_id, first_name, last_name, email, gender, location, age_range, likes = oauth.callback()
 
     if social_id is None:
         flash('Authentication failed.')
@@ -107,10 +107,11 @@ def oauth_callback(provider):
     user = baza.db.Users.find_one({"social_id": social_id})
 
     if not user:
-        baza.db.Users.insert_one({"user_id": int(user_id), "email": email, "social_id": social_id, "first_name": first_name, "last_name": last_name, "gradovi": ['Zagreb'], "filmovi" : [], 'favoriti': []})
+        baza.db.Users.insert_one({  "user_id": int(user_id), "email": email, "social_id": social_id, "first_name": first_name, "last_name": last_name, 
+                                    "gender": gender, "location": location, "age_range": age_range, "likes": likes })
         user = baza.db.Users.find_one({"social_id": social_id})
 
-    login_user(User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name']), remember= True, force= True)
+    login_user(User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'], user['gender'], user['location'], user['age_range'], user['likes']), remember= True, force= True)
     return redirect(url_for('home'))
 
 
