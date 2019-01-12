@@ -127,7 +127,10 @@ def trending():
 
 @app.route('/movie', methods=['POST'])
 def movie():
+    social_id = current_user.get_id()
     data = request.get_json()
+    data['social_id'] = social_id
+    baza.db.Users.update({'social_id' : social_id}, {'$push' :  {'movie_likes' : {'movie': data['movie'], 'like': data['like']}}}, upsert = True)
     return jsonify(status="success", data=data)
 
 def main():
