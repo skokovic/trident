@@ -19,11 +19,11 @@
                     <img src={{ movie_info.image }}" alt="Image">
                 </figure>
             </div>
-            <div class="content">
+            <div class="about_movie">
                 <p>
                     <span class="title">{{ movie_info.title }}</span>
                     <br>
-                    <span class="title">Released:{{ movie_info.title }}</span>
+                    <span class="title">Released: {{ movie_info.released }}</span>
                     <br>
                     <span class="title">Rated: {{ movie_info.rated }}</span>
                     <br>
@@ -31,15 +31,17 @@
                     <br>
                     <span class="title">Genre: {{ movie_info.genre }}</span>
                     <br>
-                    <span class="title">Director:{{ movie_info.director}}</span>
+                    <span class="title">Director: {{ movie_info.director}}</span>
                     <br>
-                    <span class="title">Actors:{{ movie_info.actors }}</span>
+                    <span class="title">Actors: {{ movie_info.actors }}</span>
                     <br>
-                    <span class="title">Plot:{{ movie_info.plot }}</span>
+                    <span class="title">Plot: {{ movie_info.plot }}</span>
                     <br>
-                    <span class="title">Awards:{{ movie_info.awards }}</span>
+                    <span class="title">Awards: {{ movie_info.awards }}</span>
                     <br>
-                    <span class="title">Rating:{{ movie_info.rating_source }}: {{ movie_info.rating_value }}</span>
+                    <span class="title">Rating: {{ movie_info.rating_source }}: {{ movie_info.rating_value }}</span>
+                    <br>
+                    <span class="title">Soundtrack: {{ movie_info.soundtrack}}: {{ movie_info.soundtrack}}</span>
                 </p>
             </div>
         </div>
