@@ -64,11 +64,15 @@ class FacebookSignIn(OAuthSignIn):
                   'redirect_uri': self.get_callback_url()},
             decoder=decode_json
         )
-        me = oauth_session.get('me?fields=id,email,first_name,last_name').json()
+        me = oauth_session.get('me?fields=id,email,first_name,last_name,gender,location,age_range,likes').json()
         return (
             me['id'],
             'facebook$' + me['id'],
             me.get('first_name'),
             me.get('last_name'),
-            me.get('email')
+            me.get('email'),
+            me.get('gender'),
+            me.get('location'),
+            me.get('age_range'),
+            me.get('likes')
         )
