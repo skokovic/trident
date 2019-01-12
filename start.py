@@ -75,7 +75,7 @@ def weather():
 @lm.user_loader   #User Loader Function - Flask needs the application's help in loading a user
 def load_user(id):
     user = baza.db.Users.find_one({'user_id': int(id)})
-    return User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'])
+    return User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'], user['gender'], user['location'], user['age_range'], user['likes'])
 
 @app.route('/authorize/<provider>')
 def oauth_authorize(provider):
