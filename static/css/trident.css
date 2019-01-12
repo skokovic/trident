@@ -73,3 +73,146 @@ body{
 ::-webkit-scrollbar-thumb:hover {
   background: #28a745; 
 }
+
+.login_button{
+    background: transparent !important;
+    color: white !important;
+    border : 1px solid white !important;
+}
+
+.login_button:hover{
+    background: #ededed !important;
+    color:black !important;
+    border : 1px solid black !important;
+}
+
+#login_div {
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:22em;
+    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    border: 1px solid #ccc;
+    border-radius: 1%;
+    background-color: #f3f3f3;
+}
+
+.center_text{
+    position: relative;
+    font-size: 30px;
+    font-weight : bold;
+    float: left;
+    left: 50%;
+    padding-top: 10%;
+    transform: translate(-50%, -50%);
+}
+
+.login_image{
+    position: absolute;
+    width: 50px;
+    height : 50px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.login_div{
+    position : absolute !important;
+    border: 1px solid black;
+    margin-left: 10% !important;
+    height: 70px !important;
+    width: 80% !important;
+}
+
+.google_login{
+    position: relative;
+    font-size: 25px;
+    float: left;
+    left: 50%;
+    padding-top: 15%;
+    transform: translate(-50%, -50%);
+}
+.google_login:hover{
+    color: red !important;
+    font-size:35px;
+    font-weight : bold;
+}
+
+.facebook_login{
+    position: relative;
+    margin-top: 20%;
+    font-size: 25px;
+    float: left;
+    left: 50%;
+    padding-top: 13%;
+    transform: translate(-50%, -50%);
+}
+.facebook_login:hover{
+    color: blue;
+    font-size:30px;
+    font-weight : bold;
+}
+
+.carousel .container {
+  position: relative;
+  z-index: 9;
+}
+
+.carousel_div {
+    position:absolute;
+    width: 50%;
+    height: 100%;
+    background: #9c9d9e;
+    right: 0;
+    top: 0;
+    color: #fff;
+    z-index: 100;
+}
+@media only screen and (min-width : 320px) and (max-width : 480px) {
+    .carousel_div {
+        position: absolute
+    }
+}
+
+.title_row{
+    position: absolute;
+    width: 97%;
+}
+.title_carousel{
+    font-size: 40px;
+    padding-left:15% !important;
+    padding-top:5%;
+    background:black;
+}
+
+.thumb{
+    color: black;
+    font-size:30px;
+}
+
+.thumb_row{
+    position: absolute;
+    bottom: 50;
+    right: 150;
+}
+.thumb_up{
+    padding-left: 0% !important;
+}
+
+.movie_overview{
+    position:absolute !important;
+    margin-top: 20%;
+    padding: 10%;
+}
+
+.text_bg{
+    
+}
+.like:hover{
+    cursor: pointer;
+}
+.thumb_up:hover{
+ color:#FFD700;
+ cursor: pointer;
+}

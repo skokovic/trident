@@ -1,6 +1,7 @@
 <html>
 		<head>
 			<meta charset="utf-8">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     		<link rel="stylesheet" type="text/css" href="static/css/trident.css">
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -8,13 +9,15 @@
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+			<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css' integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymous'>
 		</head>
 		<body>
 			<div class="container-fluid" style="width: 100% !important; padding: 0% !important">
 				<div class="row">
 					 {% include 'navbar.html' %}
 				</div>
-                <form method="POST">
+               <!-- <form method="POST">
                         <div>
                             {% if current_user.is_authenticated %}
                                 <h2>Hi, {{ current_user.first_name }} {{ current_user.last_name }}!</h2>
@@ -33,6 +36,7 @@
                             {% endif %}
                         </div>
                 </form>
+                -->
 				<div class="row">
 					 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width: 100% !important; padding-right: .5rem 1rem">
 						<ol class="carousel-indicators" style="height: 20%">
@@ -45,15 +49,60 @@
 							{%endfor%}
 
 						</ol>
-						<div class="carousel-inner" style="height: 80%; width: 100% !important">
+						<div class="carousel-inner" style="height: 100%; width: 100% !important">
 							{% for movie in upcoming %}
 								{% if loop.index0 == 0 %}
 									<div class="carousel-item active">
-									  <img class="d-block w-100 container-fluid" src="http://image.tmdb.org/t/p/w400/{{movie['backdrop_path']}}" alt="First slide" height="80%">
+									  	<div style="width:50% !important">
+											<img class="d-block w-100 container-fluid" src="http://image.tmdb.org/t/p/w400/{{movie['poster_path']}}" alt="First slide" height="80%">
+										</div>
+										<div class="carousel_div">
+											<div class="title_row">
+												<div class="title_carousel">
+													{{movie['title']}}
+												</div>
+											</div>
+											<div class="row  movie_overview">
+												<div class="col-md-12 text_bg">
+													{{movie['overview']}}
+												</div>
+											</div>
+											<div class="row thumb_row">
+												<div class="col-md-6 thumb thumb_up" style="">
+													<i onclick="like_click('{{movie['title']}}')" class="far fa-thumbs-up"></i>
+												</div>
+
+												<div class="col-md-6 thumb thumb_up" style="padding-top:3%">
+													<i onclick="dislike_click('{{movie['title']}}')" class="far fa-thumbs-down"></i>
+												</div>
+											</div>
+										</div>
 									</div>
 								{%else%}
 									<div class="carousel-item">
-									  <img class="d-block w-100" src="http://image.tmdb.org/t/p/w400/{{movie['backdrop_path']}}" alt="Second slide" height="80%">
+										<div style="width:50%">
+											<img class="d-block w-100" src="http://image.tmdb.org/t/p/w400/{{movie['poster_path']}}" alt="Second slide" height="80%">
+										</div>
+										<div class="carousel_div">
+											<div class="title_row">
+												<div class="col-md-12 title_carousel ">
+													{{movie['title']}}
+												</div>
+											</div>
+											<div class="row  movie_overview">
+												<div class="col-md-12 text_bg">
+													{{movie['overview']}}
+												</div>
+											</div>
+											<div class="row thumb_row">
+												<div class="col-md-6 thumb thumb_up">
+													<i onclick="like_click('{{movie['title']}}')" class="far fa-thumbs-up"></i>
+												</div>
+												<div class="col-md-6 thumb thumb_up" style="padding-top:3%">
+													<i onclick="dislike_click('{{movie['title']}}')" class="far fa-thumbs-down"></i>
+												</div>
+											</div>
+										</div>
 									</div>
 								{%endif%}
 							{% endfor %}
@@ -90,4 +139,35 @@
      js.src = "https://connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
+
+   function like_click(movie){
+		$.ajax({
+			type: "POST",
+			url: "{{ url_for("movie") }}",
+			contentType: "application/json",
+			data: JSON.stringify({movie: movie, like: true}),
+			dataType: "json",
+			success: function(response) {
+				console.log(response);
+			},
+			error: function(err) {
+				console.log(err);
+			}
+		});
+   }
+   function dislike_click(movie){
+		$.ajax({
+			type: "POST",
+			url: "{{ url_for("movie") }}",
+			contentType: "application/json",
+			data: JSON.stringify({movie: movie, like: false}),
+			dataType: "json",
+			success: function(response) {
+				console.log(response);
+			},
+			error: function(err) {
+				console.log(err);
+			}
+		});
+   }
 </script>

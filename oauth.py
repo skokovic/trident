@@ -21,7 +21,7 @@ class OAuthSignIn(object):
 
     def get_callback_url(self):
         return url_for('oauth_callback', provider=self.provider_name,
-                       _external=True)
+                       _external=True, _scheme='https')
 
     @classmethod
     def get_provider(self, provider_name):
@@ -47,7 +47,7 @@ class FacebookSignIn(OAuthSignIn):
 
     def authorize(self):
         return redirect(self.service.get_authorize_url(
-            scope='email',
+            scope='email,user_location,user_gender,user_likes,user_age_range',
             response_type='code',
             redirect_uri=self.get_callback_url())
         )
@@ -64,11 +64,16 @@ class FacebookSignIn(OAuthSignIn):
                   'redirect_uri': self.get_callback_url()},
             decoder=decode_json
         )
-        me = oauth_session.get('me?fields=id,email,first_name,last_name').json()
+        me = oauth_session.get('me?fields=id,email,first_name,last_name,gender,location,age_range,likes,picture').json()
         return (
             me['id'],
             'facebook$' + me['id'],
             me.get('first_name'),
             me.get('last_name'),
-            me.get('email')
+            me.get('email'),
+            me.get('gender'),
+            me.get('location'),
+            me.get('age_range'),
+            me.get('likes'),
+            me.get('picture')
         )
