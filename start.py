@@ -1,9 +1,10 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from __init__ import app, lm, baza
 from flask_login import current_user, login_user, logout_user, login_required
 from models import User
 from oauth import OAuthSignIn
 import requests
+
 
 
 import movie_statistic
@@ -123,6 +124,10 @@ def trending():
     trending_movies = movie_statistic.get_trending()
     return render_template('trending.html', trending_movies = trending_movies)
 
+@app.route('/movie', methods=['POST'])
+def movie():
+    data = request.get_json()
+    return jsonify(status="success", data=data)
 
 def main():
     app.run()
