@@ -160,14 +160,14 @@ body{
 }
 
 .carousel_div {
+    position:absolute;
     width: 50%;
     height: 100%;
     background: #9c9d9e;
-    position:absolute;
-    right: 20;
+    right: 0;
     top: 0;
     color: #fff;
-    z-index: 100
+    z-index: 100;
 }
 @media only screen and (min-width : 320px) and (max-width : 480px) {
     .carousel_div {
@@ -175,27 +175,40 @@ body{
     }
 }
 
+.title_row{
+    position: absolute;
+    width: 97%;
+}
 .title_carousel{
     font-size: 40px;
     padding-left:15% !important;
     padding-top:5%;
+    background:black;
 }
 
 .thumb{
     color: black;
     font-size:30px;
-    margin-top:10%;
-
 }
 
+.thumb_row{
+    position: absolute;
+    bottom: 50;
+    right: 150;
+}
 .thumb_up{
-    padding-left: 10% !important;
+    padding-left: 0% !important;
 }
 
-.thumb_down{
-
+.movie_overview{
+    position:absolute !important;
+    margin-top: 20%;
+    padding: 10%;
 }
 
+.text_bg{
+    
+}
 .like:hover{
     cursor: pointer;
 }
