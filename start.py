@@ -117,8 +117,9 @@ def oauth_callback(provider):
 
 @app.route('/my_profile.html')
 def profile():
-    user = baza.db.Users.find_one({"social_id": current_user.get_id()})
-    my_picture = user['picture']['data']['url']
+    #user = baza.db.Users.find_one({"social_id": current_user.get_id()})
+    #my_picture = user['picture']['data']['url']
+    my_picture = ""
     return render_template('my_profile.html', my_picture = my_picture)
 
 
