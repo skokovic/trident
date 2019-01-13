@@ -121,9 +121,9 @@ def movie_info():
 
     url = "http://www.omdbapi.com/?t={}&apikey=4909d34"
 
-    movie_name = "Interstellar"
-    movie_info_var = ""
-    #movie_info_var = baza.db.MoviesOMDB.find_one({'title': movie_name})
+    movie_name = "Pulp Fiction"
+    #movie_info_var = ""
+    movie_info_var = baza.db.MoviesOMDB.find_one({'title': movie_name})
     if not movie_info_var:
         response = requests.get(url.format(movie_name)).json()
         last_request = lastfm.LastFM()
@@ -146,15 +146,13 @@ def movie_info():
             'soundtrack': soundtrack
         }
 
-
-
-     #   baza.db.MoviesOMDB.insert_one({'title': movie_info['title'], 'rated': movie_info["rated"],'released': movie_info['released'],'runtime': movie_info['runtime'],
-     #  'genre': movie_info['genre'],'director': movie_info['director'],
-     #  'actors': movie_info['actors'],'plot': movie_info['plot'],
-     #  'awards': movie_info['awards'],'rating_source': movie_info['rating_source'],
-     #  'rating_value': movie_info['rating_value'],'image': movie_info['image'],
-     # 'soundtrack': movie_info['soundtrack']})
-
+        baza.db.MoviesOMDB.insert_one({'title': movie_info_var['title'], 'rated': movie_info_var["rated"],
+                                       'released': movie_info_var['released'],'runtime': movie_info_var['runtime'],
+                                       'genre': movie_info_var['genre'],'director': movie_info_var['director'],
+                                       'actors': movie_info_var['actors'],'plot': movie_info_var['plot'],
+                                       'awards': movie_info_var['awards'],'rating_source': movie_info_var['rating_source'],
+                                       'rating_value': movie_info_var['rating_value'],'image': movie_info_var['image'],
+                                       'soundtrack': movie_info_var['soundtrack']})
 
     return render_template('movie_info.html',  movie_info=movie_info_var)
 
