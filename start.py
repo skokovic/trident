@@ -129,6 +129,7 @@ def movie_info():
         last_request = lastfm.LastFM()
         soundtrack_title = response['Title'] + " soundtrack"
         soundtrack = last_request.get_movie_album("album.search", {"album": soundtrack_title})
+        soundtrack = soundtrack[:-1]
         movie_info_var = {
             'title': response["Title"],
             'rated': response["Rated"],
