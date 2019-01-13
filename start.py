@@ -94,7 +94,7 @@ def home():
     if not current_user.is_anonymous:
         print(current_user.get_id())
     upcoming = movie_statistic.get_most_popular_movies_today(10)
-
+    print(upcoming)
     return render_template('home.html', upcoming=upcoming)
 
 
@@ -257,8 +257,23 @@ def movie_data(imdbid):
 
 @app.route('/movie_info<imdbID>')
 def movie_info(imdbID):
+    #print(imdbID)
+
     imdbID = imdbID[1:-1]
-    movie_info_var = movie_data(imdbID)
+
+    if "tt" in imdbID:
+        imdbID = imdbID[1:-1]
+        movie_info_var = movie_data(imdbID)
+    else:
+        #print("tu sam")
+        id_new = urllib.request.urlopen("https://api.themoviedb.org/3/movie/" + str(imdbID) + "?api_key=b2dd64617f8c64de2a3c3c0ada9f73ec").read()
+        id_new = id_new.decode("utf-8")
+        json_data = json.loads(id_new)
+
+        #print(json_data['imdb_id'])
+
+        movie_info_var = movie_data(json_data['imdb_id'])
+
     return render_template('movie_info.html', movie_info=movie_info_var)
 
 
