@@ -54,6 +54,7 @@ def authorized(resp):
     access_token = resp['access_token']
     session['access_token'] = access_token, ''
     google_page()
+    return redirect(url_for("home"))
 
 
 @google.tokengetter
@@ -86,15 +87,48 @@ def google_page():
     session['logged_in'] = True;
     user = res.read()
     jsonuser = json.loads(user)
-    return "true"
+    id_user = int(jsonuser['id']) % 1000000
+    user_id = id_user
+    social_id = id_user
+    email = jsonuser['email']
+    if 'given_name' in jsonuser:
+        first_name = jsonuser['given_name']
+    else:
+        first_name = ""
+
+    if 'family_name' in jsonuser:
+        last_name = jsonuser['family_name']
+    else:
+        last_name = ""
+
+    if 'picture' in jsonuser:
+        picture = jsonuser['picture']
+    else:
+        picture = ""
+
+    gender = ""
+    location = ""
+    age_range =""
+    likes = ""
+
+    if social_id is None:
+        flash('Authentication failed.')
+        return redirect(url_for('home'))
+
+    user = baza.db.Users.find_one({"social_id": social_id})
+
+    if not user:
+        baza.db.Users.insert_one({ "user_id": user_id, "email": email, "social_id": social_id, "first_name": first_name, "last_name": last_name,
+                                    "gender": gender, "location": location, "age_range": age_range, "likes": likes, "picture": picture })
+        user = baza.db.Users.find_one({"social_id": social_id})
+    login_user(User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'], user['gender'], user['location'], user['age_range'], user['likes'], user['picture']), remember= True, force= True)
+
+    return jsonuser
 
 
 @app.route('/')
 @app.route('/home')
 def home():
-
-    if not current_user.is_anonymous:
-        print(current_user.get_id())
     upcoming = movie_statistic.get_most_popular_movies_today(10)
     print(upcoming)
     return render_template('home.html', upcoming=upcoming)
