@@ -32,8 +32,8 @@ body{
 
 .about_me{
 	background-color: #e9ecef;
-	margin-right: 20%!important;
-	margin-left: 20% !important;
+	margin-right: 10%!important;
+	margin-left: 10% !important;
 	padding: 1%;
 	margin-top: 1%
 }
@@ -215,4 +215,27 @@ body{
 .thumb_up:hover{
  color:#FFD700;
  cursor: pointer;
+}
+
+div.scrollmenu {
+  width: 100%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top:7%;
+  background-color: #333;
+  overflow: auto;
+  white-space: nowrap;
+  padding: 1%;
+}
+
+.div_scroll {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+div.scrollmenu a:hover {
+  background-color: #777;
 }

@@ -7,6 +7,9 @@ import requests
 import lastfm
 import movie_statistic
 import tmdbsimple as tmdb
+import movie_reccommendation
+import urllib.request
+import json
 SECRET_KEY = '123'
 DEBUG = True
 dbName = '\0'
@@ -76,39 +79,57 @@ def oauth_callback(provider):
     return redirect(url_for('home'))
 
 
-@app.route('/my_profile.html')
+@app.route('/my_profile')
 def profile():
-    #user = baza.db.Users.find_one({"social_id": current_user.get_id()})
-    #my_picture = user['picture']['data']['url']
-    my_picture = ""
 
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=271d1234d3f497eed5b1d80a07b3fcd1'
 
-    social_id = current_user.get_id()
+    #social_id = current_user.get_id()
+    social_id = "facebook$10215343795441714"
 
-    #city = baza.db.Users.find_one({"social_id": social_id})['location']['name']
-    city = "Zagreb"
+    #user = baza.db.Users.find_one({"social_id": current_user.get_id()})
+    user = baza.db.Users.find_one({"social_id": social_id})
+    email = user['email']
+    name = user['first_name']
+    lastname = " " + user['last_name']
+    gender = user['gender']
+    age = user['age_range']['min']
+    location = user['location']['name']
+    if 'picture' in user:
+        my_picture = user['picture']['data']['url']
+    else:
+        my_picture = "https://fignow.com/public_html/fignow.com/wp-content/uploads/2016/12/Unknown.jpg"
+
+    recommendation = movie_reccommendation.get_recommended_movies(1)
+
+    list_of_movie_info = []
+    for movie_id in recommendation:
+        id_new = urllib.request.urlopen("https://api.themoviedb.org/3/movie/"+ str(movie_id)+"?api_key=b2dd64617f8c64de2a3c3c0ada9f73ec").read()
+        id_new = id_new.decode("utf-8")
+        json_data = json.loads(id_new)
+        list_of_movie_info.append(movie_data(json_data['imdb_id']))
+
+    recommendation = list_of_movie_info
+    city = baza.db.Users.find_one({"social_id": social_id})['location']['name']
     response = requests.get(url.format(city)).json()
 
     temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
 
     weather_info = {
         'city': city,
-        'temperature': temperature,
-        'description': response['weather'][0]['description'],
+        'temperature': str(temperature)+ " " + u'\N{DEGREE SIGN}'+"C" ,
+        'description': response['weather'][0]['description'] + " at " + (city.split(","))[0],
         'icon': response['weather'][0]['icon'],
     }
 
-
-    #print(weather_info['city'], weather_info['temperature'], weather_info['description'], weather_info['icon'])
-
-    return render_template('my_profile.html', my_picture = my_picture, weather_info=weather_info)
+    return render_template('my_profile.html', reccomendation = recommendation, my_picture = my_picture, weather_info= weather_info, email = email, name = name, lastname = lastname, gender = gender, age = age, location = location)
 
 
 @app.route('/trending.html')
 def trending():
     trending_movies = movie_statistic.get_trending()
     return render_template('trending.html', trending_movies = trending_movies)
+
 
 @app.route('/movie', methods=['POST'])
 def movie():
@@ -117,7 +138,6 @@ def movie():
     data['social_id'] = social_id
     baza.db.Users.update({'social_id' : social_id}, {'$push' :  {'movie_likes' : {'movie': data['movie'], 'like': data['like']}}}, upsert = True)
     return jsonify(status="success", data=data)
-
 
 
 def movie_data(imdbid):
@@ -166,6 +186,7 @@ def movie_data(imdbid):
              'soundtrack': movie_info_var['soundtrack'], 'trailer': trailer})
 
     return movie_info_var
+
 
 @app.route('/movie_info<imdbID>')
 def movie_info(imdbID):

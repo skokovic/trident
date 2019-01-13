@@ -8,6 +8,7 @@
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 		</head>
 		<body>
 			<div class="container-fluid" style="width: 100% !important; padding: 0% !important">
@@ -17,39 +18,45 @@
 				<div class="about_me">
 					<div class="row username">
 						<div class="col-md-3"><img src={{my_picture}} height="80" width="auto"></div>
-						<div class="col-md-3">Ema</div>
-					</div>
-					
-				</div>
-				<div class="movieList movieListText">
-					My movies:
-				</div>
-				<div class="row">
-					 <div class="movieList movieListDimesions">
-				 		<div class="jumbotron jumbotron-fluid jumbotron_padding">
-						  <div class="container">
-						  	<!-- ovdje ide primljena lista sa svim navedenim i popunjava se for petljom -->
-						    <h3 class="display-6">Avatar</h3>
-						    <div class="row">
-						    	<div class="col-md-5"><img src="static/avatar_poster.jpg" style="height: 100%; width: auto;"></div>
-						    	<div class="col-md-6 about_movie" style="">
-						    		<div class="row">
-						    			<div class="col-md-3">Year</div>
-						    			<div class="col-md-3">2009</div>
-						    		</div>
-						    		<div class="row">
-						    			<div class="col-md-3">Genre</div>
-						    			<div class="col-md-3">SF</div>
-						    		</div>
-						    		<div class="row">
-						    			<div class="col-md-3">About</div>
-						    			<div class="col-md-3">smth</div>
-						    		</div>
-						    	</div>
-						    </div>
-						  </div>
+						<div class="col-md-5">
+							<div class="row">
+								{{name}}{{lastname}}, &nbsp{{age}}
+							</div>
+							<div class="row">
+								{{email}}
+							</div>
+							<div class="row">
+								{{location}}
+							</div>
 						</div>
-					 </div>
+						<div class="col-md-2">
+							<div class="row">
+								{{weather_info['temperature']}}
+							</div>
+							<div class="row">
+								{{weather_info['description']}}
+							</div>
+						</div>
+						<div class="col-md-2">
+							<figure class="image is-50x50" style="margin-top: -10% !important">
+								<img src="http://openweathermap.org/img/w/{{ weather_info['icon'] }}.png" alt="Image" width="70" height="auto">
+							</figure>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="scrollmenu">
+						{%for movie in reccomendation%}
+							<div class="div_scroll">
+								<img src="{{movie['image']}}" height="300" width="auto">
+								<div>
+									{{movie['title']}}
+								</div>
+							</div>
+
+						{% endfor %}
+					</div>
 				</div>
 			</div>
 		</body>
