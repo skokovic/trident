@@ -8,7 +8,7 @@ import requests
 import lastfm
 import movie_statistic
 import tmdbsimple as tmdb
-import movie_reccommendation
+import movie_recommendation
 import urllib.request
 import json
 import statistic_routes
@@ -203,7 +203,7 @@ def profile():
     else:
         my_picture = "https://fignow.com/public_html/fignow.com/wp-content/uploads/2016/12/Unknown.jpg"
 
-    recommendation = movie_reccommendation.get_recommended_movies(1)
+    recommendation = movie_recommendation.get_recommended_movies(1)
 
     list_of_movie_info = []
     for movie_id in recommendation:
@@ -240,6 +240,12 @@ def profile():
 def trending():
     trending_movies = movie_statistic.get_trending()
     return render_template('trending.html', trending_movies = trending_movies)
+
+@app.route('/recommendations.html')
+def recommendations():
+    #recommended_movies = movie_recommendation.get_recommended_movies(current_user.get_id())
+    recommended_movies = movie_recommendation.get_recommended_movies(1)
+    return render_template('recommendations.html', movies = recommended_movies)
 
 
 @app.route('/movie', methods=['POST'])
@@ -312,34 +318,6 @@ def movie_info(imdbID):
     movie_info_var = movie_data(imdbID)
 
     return render_template('movie_info.html', movie_info=movie_info_var)
-
-
-# def get_movies_in_theatre:
-
-# def get_upcoming_movies:
-
-# def get_most_popular_movies_today:
-
-# def get_top_rate_movies_ever:
-
-# def get_most_highest_grossing_movies(year=None):
-
-# def get_movies_with_most_vote_count:
-
-# def get_trending:
-
-# def get_most_popular_movies_by_genre(genre_id):
-
-# def get_movies_with_highest_revenue_by_genre:
-
-# def get_the_most_successful_companies:
-
-# def get_the_most_successful_actors:
-
-
-
-
-
 
 
 def main():
