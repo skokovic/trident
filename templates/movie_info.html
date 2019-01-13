@@ -145,9 +145,9 @@
                         </div>
                         <div class="col-md-6">
                             <div class="about_movie_data">
-                                <select  style="width: 300px !important">
+                                <select  style="width: 300px !important" onchange="location = this.value;">
                                     {% for link in movie_info.soundtrack%}
-                                    <option  value="{{link}}">{{link}}</option>
+                                    <option  value="{{link}}"><a href="{{link}}">{{link}}</a> </option>
                                     {% endfor %}
                                 </select>
                             </div>
