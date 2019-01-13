@@ -81,33 +81,21 @@ def profile():
 
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=271d1234d3f497eed5b1d80a07b3fcd1'
 
-    if not current_user.is_anonymous:
-        print(current_user.get_id())
+    social_id = current_user.get_id()
 
-        social_id = current_user.get_id()
+    #city = baza.db.Users.find_one({"social_id": social_id})['location']['name']
+    city = "Zagreb"
+    response = requests.get(url.format(city)).json()
 
-        city = baza.db.Users.find_one({"social_id": social_id})['location']['name']
-        response = requests.get(url.format(city)).json()
+    temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
 
-        temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
+    weather_info = {
+        'city': city,
+        'temperature': temperature,
+        'description': response['weather'][0]['description'],
+        'icon': response['weather'][0]['icon'],
+    }
 
-        weather_info = {
-            'city': city,
-            'temperature': temperature,
-            'description': response['weather'][0]['description'],
-            'icon': response['weather'][0]['icon'],
-        }
-
-    else:
-        city = "Zagreb"
-        response = requests.get(url.format(city)).json()
-        temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
-        weather_info = {
-            'city': city,
-            'temperature': temperature,
-            'description': response['weather'][0]['description'],
-            'icon': response['weather'][0]['icon'],
-        }
 
     #print(weather_info['city'], weather_info['temperature'], weather_info['description'], weather_info['icon'])
 
