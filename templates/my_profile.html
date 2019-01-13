@@ -49,10 +49,12 @@
 					<div class="scrollmenu">
 						{%for movie in reccomendation%}
 							<div class="div_scroll">
-								<img src="{{movie['image']}}" height="300" width="auto">
-								<div>
+                                <a href="/movie_info<{{ movie['imdbID'] }}>">
+                                    <img src="{{movie['image']}}" height="300" width="auto">
+                                </a>
+                                <div>
 									{{movie['title']}}
-								</div>
+                                </div>
 							</div>
 
 						{% endfor %}
