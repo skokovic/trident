@@ -11,6 +11,8 @@ import tmdbsimple as tmdb
 import movie_reccommendation
 import urllib.request
 import json
+import statistic_routes
+
 SECRET_KEY = '123'
 DEBUG = True
 dbName = '\0'
@@ -223,6 +225,8 @@ def profile():
         'icon': response['weather'][0]['icon'],
     }
 
+    print(recommendation)
+
     return render_template('my_profile.html', reccomendation = recommendation, my_picture = my_picture, weather_info= weather_info, email = email, name = name, lastname = lastname, gender = gender, age = age, location = location)
 
 
@@ -243,21 +247,18 @@ def movie():
 
 def movie_data(imdbid):
     url = "http://www.omdbapi.com/?i={}&apikey=4909d34"
-
     movie_info_var = baza.db.MoviesOMDB.find_one({'imdbID': imdbid})
 
-    trailer = "www.youtube.com/watch?v=" + tmdb.Movies(id=imdbid).videos()['results'][0]['key']
 
     if not movie_info_var:
         response = requests.get(url.format(imdbid)).json()
         last_request = lastfm.LastFM()
-
+        print(imdbid)
+        trailer = "www.youtube.com/watch?v=" + tmdb.Movies(id=imdbid).videos()['results'][0]['key']
+        print(trailer)
         soundtrack_title = response['Title'] + " soundtrack"
         soundtrack = last_request.get_movie_album("album.search", {"album": soundtrack_title})
         soundtrack = soundtrack[:-1]
-
-        #trailer = tmdb.Movies(id=id).videos()
-        #print(trailer)
 
         movie_info_var = {
             'imdbID': response['imdbID'],
@@ -291,24 +292,48 @@ def movie_data(imdbid):
 
 @app.route('/movie_info<imdbID>')
 def movie_info(imdbID):
-    #print(imdbID)
 
     imdbID = imdbID[1:-1]
-
-    if "tt" in imdbID:
-        imdbID = imdbID[1:-1]
-        movie_info_var = movie_data(imdbID)
-    else:
-        #print("tu sam")
-        id_new = urllib.request.urlopen("https://api.themoviedb.org/3/movie/" + str(imdbID) + "?api_key=b2dd64617f8c64de2a3c3c0ada9f73ec").read()
+    if "tt" not in imdbID:
+        id_new = urllib.request.urlopen(
+            "https://api.themoviedb.org/3/movie/" + str(imdbID) + "?api_key=b2dd64617f8c64de2a3c3c0ada9f73ec").read()
         id_new = id_new.decode("utf-8")
         json_data = json.loads(id_new)
 
-        #print(json_data['imdb_id'])
+        imdbID = json_data['imdb_id']
 
-        movie_info_var = movie_data(json_data['imdb_id'])
+    print(imdbID)
+    movie_info_var = movie_data(imdbID)
 
     return render_template('movie_info.html', movie_info=movie_info_var)
+
+
+# def get_movies_in_theatre:
+
+# def get_upcoming_movies:
+
+# def get_most_popular_movies_today:
+
+# def get_top_rate_movies_ever:
+
+# def get_most_highest_grossing_movies(year=None):
+
+# def get_movies_with_most_vote_count:
+
+# def get_trending:
+
+# def get_most_popular_movies_by_genre(genre_id):
+
+# def get_movies_with_highest_revenue_by_genre:
+
+# def get_the_most_successful_companies:
+
+# def get_the_most_successful_actors:
+
+
+
+
+
 
 
 def main():
