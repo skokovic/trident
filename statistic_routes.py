@@ -1,4 +1,5 @@
 from flask import request
+from __init__ import app
 import movie_statistic as stats
 
 
