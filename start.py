@@ -277,6 +277,34 @@ def movie_info(imdbID):
     return render_template('movie_info.html', movie_info=movie_info_var)
 
 
+# def get_movies_in_theatre:
+
+# def get_upcoming_movies:
+
+# def get_most_popular_movies_today:
+
+# def get_top_rate_movies_ever:
+
+# def get_most_highest_grossing_movies(year=None):
+
+# def get_movies_with_most_vote_count:
+
+# def get_trending:
+
+# def get_most_popular_movies_by_genre(genre_id):
+
+# def get_movies_with_highest_revenue_by_genre:
+
+# def get_the_most_successful_companies:
+
+# def get_the_most_successful_actors:
+
+
+
+
+
+
+
 def main():
     app.run(host='0.0.0.0')
 

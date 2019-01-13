@@ -8,6 +8,7 @@ tmdb.API_KEY = tmdbKey
 
 def get_list_of_liked_movies_by_user(user_id):
     #zamijeniti s pravom listom
+        # lista svih lajkanih filmova za user_id iz baze
     if (user_id==0):
         return [24428, 299536, 99861]
     elif (user_id==1):
@@ -18,6 +19,7 @@ def get_list_of_liked_movies_by_user(user_id):
 
 def get_list_of_disliked_movies_by_user(user_id):
     #zamijeniti s pravom listom
+        #         # lista svih dislajkanih filmova za user_id iz baze
     if (user_id==0):
         return []
     elif (user_id==1):
@@ -89,7 +91,8 @@ def get_list_of_all_graded_movies(users):
 
 
 def make_ratings_table():
-    users = [0, 1, 2]  # zamijeniti s getanjem liste svih usera
+        # lista svih usera iz baze!
+    users = [0, 1, 2]  # zamijeniti s getanjem liste svih usera 
     movie_ids = get_list_of_all_graded_movies(users)
     ratings = pd.DataFrame(index=users, columns=movie_ids, data=0).astype(int)
     for user in users:
@@ -106,6 +109,7 @@ def make_ratings_table():
 def get_similar_users_movie_recommendation(user_id):
     ratings = make_ratings_table()
     similar_users = {}
+            # lista svih usera iz baze!
     users = [0, 1, 2] #zamijeni sa get all users
     movies = get_list_of_all_graded_movies(users)
     users.remove(user_id)
