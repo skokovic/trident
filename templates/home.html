@@ -54,8 +54,10 @@
 								{% if loop.index0 == 0 %}
 									<div class="carousel-item active">
 									  	<div style="width:50% !important">
-											<img class="d-block w-100 container-fluid" src="http://image.tmdb.org/t/p/w400/{{movie['poster_path']}}" alt="First slide" height="80%">
-										</div>
+                                            <a href="/movie_info<{{ movie['id'] }}>">
+                                                <img class="d-block w-100 container-fluid" src="http://image.tmdb.org/t/p/w400/{{movie['poster_path']}}" alt="First slide" height="80%">
+                                            </a>
+                                        </div>
 										<div class="carousel_div">
 											<div class="title_row">
 												<div class="title_carousel">
@@ -81,8 +83,8 @@
 								{%else%}
 									<div class="carousel-item">
 										<div style="width:50%">
-											<img class="d-block w-100" src="http://image.tmdb.org/t/p/w400/{{movie['poster_path']}}" alt="Second slide" height="80%">
-										</div>
+                                            <img class="d-block w-100" src="http://image.tmdb.org/t/p/w400/{{movie['poster_path']}}" alt="Second slide" height="80%">
+                                        </div>
 										<div class="carousel_div">
 											<div class="title_row">
 												<div class="col-md-12 title_carousel ">
