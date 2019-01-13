@@ -13,4 +13,5 @@ lm.login_view = 'login'
 lm.init_app(app) # ?????
 bootstrap = Bootstrap(app)
 baza = PyMongo(app)
+print("")
 
