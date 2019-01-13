@@ -34,3 +34,9 @@
 .font_about{
     font-weight: bold !important;
 }
+
+.info_thumb{
+    padding : 0 !important;
+    margin-right: 10px !important;
+    margin-top : 20px !important;
+}
