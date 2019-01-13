@@ -1,0 +1,36 @@
+.image_wrapper{
+    position : absolute;
+    padding-top : 10%;
+    padding-left: 10% !important;
+
+}
+
+.movie_title{
+    position: absolute;
+    padding-top: 0%;
+    font-size: 30px;
+}
+
+.about_movie_info{
+    margin-top: 20% !important;
+}
+
+.about_movie_data{
+    margin-left: -40% !important;
+    text-align: right;
+}
+
+.movie_info_all{
+    position: absolute !important;
+    margin-top: 5% !important;
+    padding-top: 0% !important;
+    background : white;
+    margin-left: 50%;
+    width: 500px !important;
+    height: 550px !important;
+    font-size: 17px !important;
+}
+
+.font_about{
+    font-weight: bold !important;
+}

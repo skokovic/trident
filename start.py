@@ -5,9 +5,6 @@ from models import User
 from oauth import OAuthSignIn
 import requests
 import lastfm
-
-
-
 import movie_statistic
 SECRET_KEY = '123'
 DEBUG = True
@@ -137,20 +134,20 @@ def movie():
     baza.db.Users.update({'social_id' : social_id}, {'$push' :  {'movie_likes' : {'movie': data['movie'], 'like': data['like']}}}, upsert = True)
     return jsonify(status="success", data=data)
 
+
 @app.route('/movie_info')
 def movie_info():
 
     url = "http://www.omdbapi.com/?t={}&apikey=4909d34"
     movie_name = "Interstellar"
-
-    movie_info = baza.db.MoviesOMDB.find_one({'title': movie_name})
-    if not movie_info:
+    movie_info_var = ""
+    #movie_info = baza.db.MoviesOMDB.find_one({'title': movie_name})
+    if not movie_info_var:
         response = requests.get(url.format(movie_name)).json()
-        print("nesto")
         last_request = lastfm.LastFM()
         soundtrack_title = response['Title'] + " soundtrack"
         soundtrack = last_request.get_movie_album("album.search", {"album": soundtrack_title})
-        movie_info = {
+        movie_info_var = {
             'title': response["Title"],
             'rated': response["Rated"],
             'released': response["Released"],
@@ -165,17 +162,19 @@ def movie_info():
             'image': response['Poster'],
             'soundtrack': soundtrack
         }
-        print(movie_info['soundtrack'])
 
-        baza.db.MoviesOMDB.insert_one({'title': movie_info['title'], 'rated': movie_info["rated"],
-                                       'released': movie_info['released'],'runtime': movie_info['runtime'],
-                                       'genre': movie_info['genre'],'director': movie_info['director'],
-                                       'actors': movie_info['actors'],'plot': movie_info['plot'],
-                                       'awards': movie_info['awards'],'rating_source': movie_info['rating_source'],
-                                       'rating_value': movie_info['rating_value'],'image': movie_info['image'],
-                                       'soundtrack': movie_info['soundtrack']})
 
-    return render_template('movie_info.html',  movie_info=movie_info)
+
+     #   baza.db.MoviesOMDB.insert_one({'title': movie_info['title'], 'rated': movie_info["rated"],'released': movie_info['released'],'runtime': movie_info['runtime'],
+     #  'genre': movie_info['genre'],'director': movie_info['director'],
+     #  'actors': movie_info['actors'],'plot': movie_info['plot'],
+     #  'awards': movie_info['awards'],'rating_source': movie_info['rating_source'],
+     #  'rating_value': movie_info['rating_value'],'image': movie_info['image'],
+     # 'soundtrack': movie_info['soundtrack']})
+
+
+    return render_template('movie_info.html',  movie_info=movie_info_var)
+
 
 def main():
     app.run(host='0.0.0.0')
