@@ -12,6 +12,8 @@ DEBUG = True
 dbName = '\0'
 app.debug = DEBUG
 app.secret_key = SECRET_KEY
+tmdbKey: str = "b2dd64617f8c64de2a3c3c0ada9f73ec"
+tmdb.API_KEY = tmdbKey
 
 
 
@@ -118,17 +120,24 @@ def movie():
 
 
 
-def movie_data(id):
+def movie_data(imdbid):
     url = "http://www.omdbapi.com/?i={}&apikey=4909d34"
 
-    movie_info_var = baza.db.MoviesOMDB.find_one({'id': id})
+    movie_info_var = baza.db.MoviesOMDB.find_one({'imdbID': imdbid})
+
+    trailer = "www.youtube.com/watch?v=" + tmdb.Movies(id=imdbid).videos()['results'][0]['key']
+
     if not movie_info_var:
-        response = requests.get(url.format(id)).json()
+        response = requests.get(url.format(imdbid)).json()
         last_request = lastfm.LastFM()
-        print(response)
+
         soundtrack_title = response['Title'] + " soundtrack"
         soundtrack = last_request.get_movie_album("album.search", {"album": soundtrack_title})
         soundtrack = soundtrack[:-1]
+
+        #trailer = tmdb.Movies(id=id).videos()
+        #print(trailer)
+
         movie_info_var = {
             'imdbID': response['imdbID'],
             'title': response["Title"],
@@ -143,7 +152,8 @@ def movie_data(id):
             'rating_source': response["Ratings"][0]["Source"],
             'rating_value': response["Ratings"][0]["Value"],
             'image': response['Poster'],
-            'soundtrack': soundtrack
+            'soundtrack': soundtrack,
+            'trailer' : trailer
         }
 
         baza.db.MoviesOMDB.insert_one(
@@ -153,14 +163,14 @@ def movie_data(id):
              'actors': movie_info_var['actors'], 'plot': movie_info_var['plot'],
              'awards': movie_info_var['awards'], 'rating_source': movie_info_var['rating_source'],
              'rating_value': movie_info_var['rating_value'], 'image': movie_info_var['image'],
-             'soundtrack': movie_info_var['soundtrack']})
+             'soundtrack': movie_info_var['soundtrack'], 'trailer': trailer})
 
     return movie_info_var
 
 @app.route('/movie_info')
-def movie_info(id):
+def movie_info(imdbID):
     #id = "tt0816692"
-    movie_info_var = movie_data(id)
+    movie_info_var = movie_data(imdbID)
     return render_template('movie_info.html', movie_info=movie_info_var)
 
 
