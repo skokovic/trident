@@ -11,6 +11,8 @@ import tmdbsimple as tmdb
 import movie_reccommendation
 import urllib.request
 import json
+import statistic_routes
+
 SECRET_KEY = '123'
 DEBUG = True
 dbName = '\0'
