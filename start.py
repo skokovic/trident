@@ -167,9 +167,9 @@ def movie_data(imdbid):
 
     return movie_info_var
 
-@app.route('/movie_info')
+@app.route('/movie_info<imdbID>')
 def movie_info(imdbID):
-    #id = "tt0816692"
+    imdbID = imdbID[1:-1]
     movie_info_var = movie_data(imdbID)
     return render_template('movie_info.html', movie_info=movie_info_var)
 
