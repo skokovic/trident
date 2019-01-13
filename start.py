@@ -84,12 +84,12 @@ def google_page():
             session.pop('access_token', None)
             return redirect(url_for('login'))
         return res.read()
-    session['logged_in'] = True;
+    session['logged_in'] = True
     user = res.read()
     jsonuser = json.loads(user)
     id_user = int(jsonuser['id']) % 1000000
     user_id = id_user
-    social_id = id_user
+    social_id = str(id_user)
     email = jsonuser['email']
     if 'given_name' in jsonuser:
         first_name = jsonuser['given_name']
@@ -102,13 +102,13 @@ def google_page():
         last_name = ""
 
     if 'picture' in jsonuser:
-        picture = jsonuser['picture']
+        picture = {"data" : {"url" : jsonuser['picture']}}
     else:
-        picture = ""
+        picture = {"data": {"url": ""}}
 
     gender = ""
-    location = ""
-    age_range =""
+    location = {"name" : ""}
+    age_range = {"min" : 0}
     likes = ""
 
     if social_id is None:
@@ -187,8 +187,8 @@ def profile():
 
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=271d1234d3f497eed5b1d80a07b3fcd1'
 
-    #social_id = current_user.get_id()
-    social_id = "facebook$10215343795441714"
+    social_id = current_user.get_id()
+    #social_id = "facebook$10215343795441714"
 
     #user = baza.db.Users.find_one({"social_id": current_user.get_id()})
     user = baza.db.Users.find_one({"social_id": social_id})
@@ -213,19 +213,25 @@ def profile():
         list_of_movie_info.append(movie_data(json_data['imdb_id']))
 
     recommendation = list_of_movie_info
-    city = baza.db.Users.find_one({"social_id": social_id})['location']['name']
-    response = requests.get(url.format(city)).json()
+    if location:
+        city = baza.db.Users.find_one({"social_id": social_id})['location']['name']
+        response = requests.get(url.format(city)).json()
 
-    temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
+        temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
 
-    weather_info = {
-        'city': city,
-        'temperature': str(temperature)+ " " + u'\N{DEGREE SIGN}'+"C" ,
-        'description': response['weather'][0]['description'] + " at " + (city.split(","))[0],
-        'icon': response['weather'][0]['icon'],
-    }
-
-    print(recommendation)
+        weather_info = {
+            'city': city,
+            'temperature': str(temperature)+ " " + u'\N{DEGREE SIGN}'+"C" ,
+            'description': response['weather'][0]['description'] + " at " + (city.split(","))[0],
+            'icon': response['weather'][0]['icon'],
+        }
+    else:
+        weather_info = {
+            'city': "",
+            'temperature': "",
+            'description': "",
+            'icon': "https://cdn0.iconfinder.com/data/icons/location-9/54/pin-blocked-512.png"
+        }
 
     return render_template('my_profile.html', reccomendation = recommendation, my_picture = my_picture, weather_info= weather_info, email = email, name = name, lastname = lastname, gender = gender, age = age, location = location)
 
