@@ -20,9 +20,11 @@ app.secret_key = SECRET_KEY
 @app.route('/')
 @app.route('/home')
 def home():
+
     if not current_user.is_anonymous:
         print(current_user.get_id())
     upcoming = movie_statistic.get_most_popular_movies_today(10)
+
     return render_template('home.html', upcoming=upcoming)
 
 
@@ -35,48 +37,6 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
-
-
-@app.route('/weather', methods=['GET', 'POST'])
-def weather():
-
-    social_id = current_user.get_id()
-    social_id = "facebook$" + social_id
-
-    not_found = 2
-
-    if request.method == 'POST':
-        new_city = request.form.get('city')
-        delete_city = request.form.get('deleteCity')
-
-        if new_city:
-            grad = baza.db.Users.update({'social_id' : social_id}, {'$push' :  {'gradovi' : new_city}}, upsert = True)
-            not_found = 0
-        if delete_city:
-            if delete_city in baza.db.Users.find_one({'social_id': social_id})['gradovi']:
-                grad = baza.db.Users.update({'social_id': social_id}, {'$pull' : {'gradovi' : delete_city}}, upsert=True)
-                not_found = 0
-            else:
-                not_found = 1
-
-    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=271d1234d3f497eed5b1d80a07b3fcd1'
-
-    cities = baza.db.Users.find_one({"social_id" : social_id})['gradovi']
-    weather_data = []
-
-    for city in cities:
-        response = requests.get(url.format(city)).json()
-
-        weather = {
-            'city': city,
-            'temperature': response['main']['temp'],
-            'description': response['weather'][0]['description'],
-            'icon': response['weather'][0]['icon'],
-        }
-
-        weather_data.append(weather)
-
-    return render_template('weather.html', weather_data=weather_data, not_found = not_found)
 
 
 @lm.user_loader   #User Loader Function - Flask needs the application's help in loading a user
@@ -121,7 +81,40 @@ def profile():
     #user = baza.db.Users.find_one({"social_id": current_user.get_id()})
     #my_picture = user['picture']['data']['url']
     my_picture = ""
-    return render_template('my_profile.html', my_picture = my_picture)
+
+    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=271d1234d3f497eed5b1d80a07b3fcd1'
+
+    if not current_user.is_anonymous:
+        print(current_user.get_id())
+
+        social_id = current_user.get_id()
+
+        city = baza.db.Users.find_one({"social_id": social_id})['location']['name']
+        response = requests.get(url.format(city)).json()
+
+        temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
+
+        weather_info = {
+            'city': city,
+            'temperature': temperature,
+            'description': response['weather'][0]['description'],
+            'icon': response['weather'][0]['icon'],
+        }
+
+    else:
+        city = "Zagreb"
+        response = requests.get(url.format(city)).json()
+        temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
+        weather_info = {
+            'city': city,
+            'temperature': temperature,
+            'description': response['weather'][0]['description'],
+            'icon': response['weather'][0]['icon'],
+        }
+
+    #print(weather_info['city'], weather_info['temperature'], weather_info['description'], weather_info['icon'])
+
+    return render_template('my_profile.html', my_picture = my_picture, weather_info=weather_info)
 
 
 @app.route('/trending.html')
@@ -141,12 +134,11 @@ def movie():
 def movie_info():
 
     url = "http://www.omdbapi.com/?t={}&apikey=4909d34"
-    movie_name = "Interstellar"
+    movie_name = "Pulp Fiction"
 
     movie_info = baza.db.MoviesOMDB.find_one({'title': movie_name})
     if not movie_info:
         response = requests.get(url.format(movie_name)).json()
-        print("nesto")
         last_request = lastfm.LastFM()
         soundtrack_title = response['Title'] + " soundtrack"
         soundtrack = last_request.get_movie_album("album.search", {"album": soundtrack_title})
