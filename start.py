@@ -1,8 +1,9 @@
-from flask import render_template, flash, redirect, url_for, request, jsonify
+from flask import render_template, flash, redirect, url_for, request, jsonify, session
 from __init__ import app, lm, baza
 from flask_login import current_user, login_user, logout_user, login_required
 from models import User
 from oauth import OAuthSignIn
+from flask_oauth import OAuth
 import requests
 import lastfm
 import movie_statistic
@@ -14,10 +15,76 @@ SECRET_KEY = '123'
 DEBUG = True
 dbName = '\0'
 app.debug = DEBUG
+SECRET_KEY = "123"
 app.secret_key = SECRET_KEY
 tmdbKey: str = "b2dd64617f8c64de2a3c3c0ada9f73ec"
 tmdb.API_KEY = tmdbKey
 
+GOOGLE_CLIENT_ID = '921408924262-0vsai1m9gru3c3k6qoepn25pe2bepppu.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = 'efb1gFkW041gQD6EtgBa9T9x'
+
+oauth = OAuth()
+
+google = oauth.remote_app('google',
+                          base_url='https://www.google.com/accounts/',
+                          authorize_url='https://accounts.google.com/o/oauth2/auth',
+                          request_token_url=None,
+                          request_token_params={'scope': 'https://www.googleapis.com/auth/userinfo.email',
+                                                'response_type': 'code'},
+                          access_token_url='https://accounts.google.com/o/oauth2/token',
+                          access_token_method='POST',
+                          access_token_params={'grant_type': 'authorization_code'},
+                          consumer_key=GOOGLE_CLIENT_ID,
+                          consumer_secret=GOOGLE_CLIENT_SECRET)
+
+REDIRECT_URI = "/google_page"
+
+
+@app.route('/google')
+def log():
+    callback = url_for('authorized', _external=True)
+    return google.authorize(callback=callback)
+
+
+@app.route(REDIRECT_URI)
+@google.authorized_handler
+def authorized(resp):
+    access_token = resp['access_token']
+    session['access_token'] = access_token, ''
+    google_page()
+
+
+@google.tokengetter
+def get_access_token():
+    return session.get('access_token')
+
+
+@app.route('/google_page')
+def google_page():
+    access_token = session.get('access_token')
+    if access_token is None:
+        return redirect(url_for('login'))
+
+    access_token = access_token[0]
+    from urllib import request
+    from urllib.request import urlopen
+    from urllib.error import URLError
+
+    headers = {'Authorization': 'OAuth ' + access_token}
+    req = request.Request('https://www.googleapis.com/oauth2/v1/userinfo',
+                          None, headers)
+    try:
+        res = urlopen(req)
+    except URLError as e:
+        if e.code == 401:
+            # Unauthorized - bad token
+            session.pop('access_token', None)
+            return redirect(url_for('login'))
+        return res.read()
+    session['logged_in'] = True;
+    user = res.read()
+    jsonuser = json.loads(user)
+    return "true"
 
 
 @app.route('/')
@@ -203,6 +270,34 @@ def movie_info(imdbID):
     movie_info_var = movie_data(imdbID)
 
     return render_template('movie_info.html', movie_info=movie_info_var)
+
+
+# def get_movies_in_theatre:
+
+# def get_upcoming_movies:
+
+# def get_most_popular_movies_today:
+
+# def get_top_rate_movies_ever:
+
+# def get_most_highest_grossing_movies(year=None):
+
+# def get_movies_with_most_vote_count:
+
+# def get_trending:
+
+# def get_most_popular_movies_by_genre(genre_id):
+
+# def get_movies_with_highest_revenue_by_genre:
+
+# def get_the_most_successful_companies:
+
+# def get_the_most_successful_actors:
+
+
+
+
+
 
 
 def main():
