@@ -85,9 +85,9 @@ def google_page():
     session['logged_in'] = True;
     user = res.read()
     jsonuser = json.loads(user)
-
-    user_id = str(jsonuser['id'])
-    social_id = str(jsonuser['id'])
+    id_user = int(jsonuser['id']) % 1000000
+    user_id = id_user
+    social_id = id_user
     email = jsonuser['email']
     if 'given_name' in jsonuser:
         first_name = jsonuser['given_name']
@@ -119,7 +119,7 @@ def google_page():
         baza.db.Users.insert_one({ "user_id": user_id, "email": email, "social_id": social_id, "first_name": first_name, "last_name": last_name,
                                     "gender": gender, "location": location, "age_range": age_range, "likes": likes, "picture": picture })
         user = baza.db.Users.find_one({"social_id": social_id})
-    #login_user(User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'], user['gender'], user['location'], user['age_range'], user['likes'], user['picture']), remember= True, force= True)
+    login_user(User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'], user['gender'], user['location'], user['age_range'], user['likes'], user['picture']), remember= True, force= True)
 
     return jsonuser
 
