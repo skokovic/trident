@@ -9,7 +9,9 @@ tmdb.API_KEY = tmdbKey
 
 def get_list_of_liked_movies_by_user(user_id):
     liked_movies = []
-    movies = baza.db.Users.find_one({"user_id": int(user_id)})['movie_likes']
+    user = baza.db.Users.find_one({"user_id": int(user_id)})
+    print(user)
+    movies = user['movie_likes']
     if movies is not None:
         for movie in movies:
             if movie['like'] == True:
@@ -29,7 +31,9 @@ def get_list_of_liked_movies_by_user(user_id):
 
 def get_list_of_disliked_movies_by_user(user_id):
     disliked_movies = []
-    movies = baza.db.Users.find_one({"user_id": int(user_id)})['movie_likes']
+    user = baza.db.Users.find_one({"user_id": int(user_id)})
+    print(user)
+    movies = user['movie_likes']
     if movies is not None:
         for movie in movies:
             if movie['like'] == False:
