@@ -175,7 +175,7 @@ def oauth_callback(provider):
 
     if not user:
         baza.db.Users.insert_one({  "user_id": int(user_id), "email": email, "social_id": social_id, "first_name": first_name, "last_name": last_name, 
-                                    "gender": gender, "location": location, "age_range": age_range, "likes": likes, "picture": picture })
+                                    "gender": gender, "location": location, "age_range": age_range, "likes": likes, "picture": picture, "movie_likes": [] })
         user = baza.db.Users.find_one({"social_id": social_id})
 
     login_user(User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'], user['gender'], user['location'], user['age_range'], user['likes'], user['picture']), remember= True, force= True)
@@ -244,8 +244,13 @@ def trending():
 @app.route('/recommendations.html')
 def recommendations():
     #recommended_movies = movie_recommendation.get_recommended_movies(current_user.get_id())
-    recommended_movies = movie_recommendation.get_recommended_movies(1)
-    return render_template('recommendations.html', movies = recommended_movies)
+    recommended_movies = movie_recommendation.get_recommended_movies("facebook$10218039196831139")
+    movies = []
+    for movie_id in recommended_movies:
+        movie = tmdb_movie_data(movie_id)
+        movies.append(movie)
+
+    return render_template('recommendations.html', movies = movies)
 
 
 @app.route('/movie', methods=['POST'])
@@ -256,6 +261,16 @@ def movie():
     baza.db.Users.update({'social_id' : social_id}, {'$push' :  {'movie_likes' : {'movie': data['movie'], 'like': data['like']}}}, upsert = True)
     return jsonify(status="success", data=data)
 
+
+def tmdb_movie_data(tmdb_id):
+    movie = baza.db.MoviesTMDB.find_one({'id': tmdb_id})
+    if movie is None:
+        movie = tmdb.Movies(id=tmdb_id)
+        info = movie.info()
+        print(info['title'], info['imdb_id'])
+        #omdb = movie_data(info['imdb_id'])
+        baza.db.MoviesTMDB.insert_one(info)
+    return movie
 
 def movie_data(imdbid):
     url = "http://www.omdbapi.com/?i={}&apikey=4909d34"

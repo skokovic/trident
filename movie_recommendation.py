@@ -1,31 +1,50 @@
 import tmdbsimple as tmdb
 import pandas as pd
 import movie_statistic as ms
+from __init__ import app, lm, baza
 
 tmdbKey: str = "b2dd64617f8c64de2a3c3c0ada9f73ec"
 tmdb.API_KEY = tmdbKey
 
 
 def get_list_of_liked_movies_by_user(user_id):
-    #zamijeniti s pravom listom
-        # lista svih lajkanih filmova za user_id iz baze
-    if (user_id==0):
-        return [24428, 299536, 99861]
-    elif (user_id==1):
-        return [24428]
+    liked_movies = []
+    movies = baza.db.Users.find_one({"social_id": user_id})['movie_likes']
+    if movies is not None:
+        for movie in movies:
+            if movie['like'] == True:
+                liked_movies.append(movie['movie'])
+        return liked_movies
     else:
-        return [299536, 99861]
+        return []
+
+
+    # if (user_id==0):
+    #     return [24428, 299536, 99861]
+    # elif (user_id==1):
+    #     return [24428]
+    # else:
+    #     return [299536, 99861]
 
 
 def get_list_of_disliked_movies_by_user(user_id):
-    #zamijeniti s pravom listom
-        #         # lista svih dislajkanih filmova za user_id iz baze
-    if (user_id==0):
-        return []
-    elif (user_id==1):
-        return [99861]
+    disliked_movies = []
+    movies = baza.db.Users.find_one({"social_id": user_id})['movie_likes']
+    if movies is not None:
+        for movie in movies:
+            if movie['like'] == False:
+                disliked_movies.append(movie['movie'])
+        return disliked_movies
     else:
         return []
+
+
+    # if (user_id==0):
+    #     return []
+    # elif (user_id==1):
+    #     return [99861]
+    # else:
+    #     return []
 
 
 def get_similar_movies(movies):
@@ -91,8 +110,13 @@ def get_list_of_all_graded_movies(users):
 
 
 def make_ratings_table():
-        # lista svih usera iz baze!
-    users = [0, 1, 2]  # zamijeniti s getanjem liste svih usera 
+    users = []
+    cursor =  baza.db.Users 
+    for document in cursor.find():
+        users.append(document['social_id'])
+
+    #users = [0, 1, 2]  # zamijeniti s getanjem liste svih usera 
+
     movie_ids = get_list_of_all_graded_movies(users)
     ratings = pd.DataFrame(index=users, columns=movie_ids, data=0).astype(int)
     for user in users:
@@ -109,8 +133,14 @@ def make_ratings_table():
 def get_similar_users_movie_recommendation(user_id):
     ratings = make_ratings_table()
     similar_users = {}
-            # lista svih usera iz baze!
-    users = [0, 1, 2] #zamijeni sa get all users
+    
+    users = []
+    cursor =  baza.db.Users 
+    for document in cursor.find():
+        users.append(document['social_id'])
+
+    #users = [0, 1, 2] #zamijeni sa get all users
+
     movies = get_list_of_all_graded_movies(users)
     users.remove(user_id)
     for user in users:
