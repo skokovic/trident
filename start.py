@@ -189,9 +189,13 @@ def profile():
 
     user_id = current_user.get_id()
     #social_id = "facebook$10215343795441714"
+    if "facebook$" in user_id:
+        user = baza.db.Users.find_one({"social_id": user_id})
+    else:
+        user = baza.db.Users.find_one({"user_id": int(user_id)})
 
     #user = baza.db.Users.find_one({"social_id": current_user.get_id()})
-    user = baza.db.Users.find_one({"social_id": user_id})
+    #user = baza.db.Users.find_one({"social_id": user_id})
     email = user['email']
     name = user['first_name']
     lastname = " " + user['last_name']
