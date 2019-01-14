@@ -119,7 +119,7 @@ def google_page():
 
     if not user:
         baza.db.Users.insert_one({ "user_id": user_id, "email": email, "social_id": social_id, "first_name": first_name, "last_name": last_name,
-                                    "gender": gender, "location": location, "age_range": age_range, "likes": likes, "picture": picture })
+                                    "gender": gender, "location": location, "age_range": age_range, "likes": likes, "picture": picture, "movie_likes": [] })
         user = baza.db.Users.find_one({"social_id": social_id})
     login_user(User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'], user['gender'], user['location'], user['age_range'], user['likes'], user['picture']), remember= True, force= True)
 
@@ -204,7 +204,7 @@ def profile():
     else:
         my_picture = "https://fignow.com/public_html/fignow.com/wp-content/uploads/2016/12/Unknown.jpg"
 
-    recommendation = movie_recommendation.get_recommended_movies(1)
+    recommendation = movie_recommendation.get_recommended_movies(int(user_id))
 
     list_of_movie_info = []
     for movie_id in recommendation:
