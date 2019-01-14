@@ -17,7 +17,7 @@
 			<div class="grid-container" id="lista">
 			{% for movie in movies %}
 				<div class="grid-item">
-					<div class="thumbnail" style="background-color: green">
+					<div class="thumbnail">
                         <a href="/movie_info<{{ movie['id'] }}>">
                             <img src="http://image.tmdb.org/t/p/w400/{{movie['poster_path']}}">
                         </a>

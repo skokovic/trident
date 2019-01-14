@@ -36,13 +36,16 @@
 							newElement.className = "grid-item";
 							var newPoster = document.createElement('div');
 							newPoster.className = "thumbnail";
-							newPoster.style = "background-color: green";
+							//newPoster.style = "background-color: green";
+							var link = document.createElement('a');
+							link.href = "/movie_info<" + mov['id'] + ">"
 							var picture = document.createElement('img');
 							picture.src = "http://image.tmdb.org/t/p/w400" + mov['poster_path'];
 							var title = document.createElement('p');
 							title.style = "font-family: Verdana, Geneva, Tahoma, sans-serif";
 							title.innerHTML = mov['title'];
-							newPoster.appendChild(picture);
+							link.appendChild(picture);
+							newPoster.appendChild(link);
 							newPoster.appendChild(title);
 							newElement.appendChild(newPoster);
 							var grid = document.getElementById("lista");

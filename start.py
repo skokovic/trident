@@ -214,14 +214,14 @@ def profile():
         id_new = urllib.request.urlopen("https://api.themoviedb.org/3/movie/"+ str(movie_id)+"?api_key=b2dd64617f8c64de2a3c3c0ada9f73ec").read()
         id_new = id_new.decode("utf-8")
         json_data = json.loads(id_new)
-        list_of_movie_info.append(movie_data(json_data['imdb_id']))
+        #list_of_movie_info.append(movie_data(json_data['imdb_id']))
 
     recommendation = list_of_movie_info
     if location:
-        city = baza.db.Users.find_one({"user_id": user_id})['location']['name']
+        city = user['location']['name']
         response = requests.get(url.format(city)).json()
 
-        temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
+        temperature = round((response['weather'][0]['temp'] - 32) * 5 / 9, 2)
 
         weather_info = {
             'city': city,
