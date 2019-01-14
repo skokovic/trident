@@ -190,9 +190,9 @@ def profile():
     user_id = current_user.get_id()
     #social_id = "facebook$10215343795441714"
 
-
+    user_id = int(filter(str.isdigit, user_id))
     #user = baza.db.Users.find_one({"social_id": current_user.get_id()})
-    user = baza.db.Users.find_one({"user_id": int(user_id)})
+    user = baza.db.Users.find_one({"user_id": user_id})
     email = user['email']
     name = user['first_name']
     lastname = " " + user['last_name']
@@ -244,7 +244,8 @@ def trending():
 
 @app.route('/recommendations.html')
 def recommendations():
-    recommended_movies = movie_recommendation.get_recommended_movies(current_user.get_id())
+    user_id = int(filter(str.isdigit, current_user.get_id()))
+    recommended_movies = movie_recommendation.get_recommended_movies(user_id)
     #recommended_movies = movie_recommendation.get_recommended_movies("facebook$10218039196831139")
     movies = []
     for movie_id in recommended_movies:
