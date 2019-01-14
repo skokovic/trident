@@ -221,7 +221,7 @@ def profile():
         city = user['location']['name']
         response = requests.get(url.format(city)).json()
 
-        temperature = round((response['weather'][0]['temp'] - 32) * 5 / 9, 2)
+        temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
 
         weather_info = {
             'city': city,
