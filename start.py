@@ -244,8 +244,8 @@ def trending():
 
 @app.route('/recommendations.html')
 def recommendations():
-    #recommended_movies = movie_recommendation.get_recommended_movies(current_user.get_id())
-    recommended_movies = movie_recommendation.get_recommended_movies("facebook$10218039196831139")
+    recommended_movies = movie_recommendation.get_recommended_movies(current_user.get_id())
+    #recommended_movies = movie_recommendation.get_recommended_movies("facebook$10218039196831139")
     movies = []
     for movie_id in recommended_movies:
         movie = tmdb_movie_data(movie_id)
