@@ -70,7 +70,7 @@ def get_most_popular_keywords(number_of_movies_taken=100):
     return sorted(keywords2.items(), key=lambda x: x[1], reverse=True)
 
 
-def get_highest_grossing_movies(number_of_movies_taken=10, year=None):
+def get_highest_grossing_movies(number_of_movies_taken=11, year=None):
     n = math.ceil(number_of_movies_taken / 20)
     response = []
     j = 1
@@ -82,7 +82,7 @@ def get_highest_grossing_movies(number_of_movies_taken=10, year=None):
         highest_revenue_movies = highest_revenue['results']
         for movie in highest_revenue_movies:
             response.append(movie)
-            if j > number_of_movies_taken:
+            if j >= number_of_movies_taken:
                 break
             j += 1
     """for movie in response:
@@ -264,10 +264,10 @@ def test():
 def main():
     """for movie in get_top_rated_movies_ever():
         print(movie['title'])"""
-    #print(get_the_most_successful_companies())
-    #print(get_the_most_successful_actors())
-    lista = get_upcoming_movies()
-    print(get_trending())
+    print(get_the_most_successful_companies())
+    print(get_the_most_successful_actors())
+    #lista = get_upcoming_movies()
+    #print(get_trending())
 
 if __name__ == '__main__':
     main()

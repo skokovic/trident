@@ -12,6 +12,10 @@
 			function myFunction() {
   				document.getElementById("myDropdown").classList.toggle("show");
 			}
+
+			function myFunction1() {
+  				document.getElementById("genre").classList.toggle("show");
+			}
 			// Close the dropdown menu if the user clicks outside of it
 			window.onclick = function(event) {
   				if (!event.target.matches('.dropbtn')) {
@@ -48,6 +52,12 @@
 
 			function getMoviesTheater() {
 				discover_title.innerText = "MOVIES IN THEATER";
+				var genre = document.getElementById("genreB");
+				genre.style.visibility = "hidden";
+				var myNode = document.getElementById("lista");
+				while (myNode.firstChild) {
+   					 myNode.removeChild(myNode.firstChild);
+				}
 				$.ajax({
 					type: "POST",
 					url: "{{ url_for("movies_in_theatre") }}",
@@ -66,34 +76,174 @@
 
 			function getUpcomingMovies() {
 				discover_title.innerText = "UPCOMING MOVIES";
+				var genre = document.getElementById("genreB");
+				genre.style.visibility = "hidden";
+				var myNode = document.getElementById("lista");
+				while (myNode.firstChild) {
+   					 myNode.removeChild(myNode.firstChild);
+				}
+				$.ajax({
+					type: "POST",
+					url: "{{ url_for("upcoming_movies") }}",
+					contentType: "application/json",
+					//data: JSON.stringify({movie: movie}),
+					//dataType: "json",
+					success: function(response) {
+						movies = JSON.parse(response);
+						showEverything(movies);
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});
 			}
 
 			function getMostPopular() {
 				discover_title.innerText = "THE MOST POPULAR MOVIES";
+				var genre = document.getElementById("genreB");
+				genre.style.visibility = "visible";
+				var myNode = document.getElementById("lista");
+				while (myNode.firstChild) {
+   					 myNode.removeChild(myNode.firstChild);
+				}
+				$.ajax({
+					type: "POST",
+					url: "{{ url_for("most_popular_movies_today") }}",
+					contentType: "application/json",
+					//data: JSON.stringify({movie: movie}),
+					//dataType: "json",
+					success: function(response) {
+						movies = JSON.parse(response);
+						showEverything(movies);
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});
 			}
 
 			function getTopRated() {
 				discover_title.innerText = "TOP RATED MOVIES";
+				var genre = document.getElementById("genreB");
+				genre.style.visibility = "hidden";
+				var myNode = document.getElementById("lista");
+				while (myNode.firstChild) {
+   					 myNode.removeChild(myNode.firstChild);
+				}
+				$.ajax({
+					type: "POST",
+					url: "{{ url_for("top_rate_movies_ever") }}",
+					contentType: "application/json",
+					//data: JSON.stringify({movie: movie}),
+					//dataType: "json",
+					success: function(response) {
+						movies = JSON.parse(response);
+						showEverything(movies);
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});
 			}
 
 			function getHighestGrossing() {
 				discover_title.innerText = "HIGHEST GROSSING MOVIES";
+				var genre = document.getElementById("genreB");
+				genre.style.visibility = "hidden";
+				var myNode = document.getElementById("lista");
+				while (myNode.firstChild) {
+   					 myNode.removeChild(myNode.firstChild);
+				}
+				$.ajax({
+					type: "POST",
+					url: "{{ url_for("most_highest_grossing_movies_all") }}",
+					contentType: "application/json",
+					success: function(response) {
+						movies = JSON.parse(response);
+						showEverything(movies);
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});
+			}
+
+			function byGenre(id) {
+				discover_title.innerText = "THE MOST POPULAR MOVIES";
+				var genre = document.getElementById("genreB");
+				genre.style.visibility = "visible";
+				var myNode = document.getElementById("lista");
+				while (myNode.firstChild) {
+   					 myNode.removeChild(myNode.firstChild);
+				}
+				$.ajax({
+					type: "POST",
+					url: "{{ url_for("get_most_popular_movies_by_genre") }}",
+					contentType: "application/json",
+					data: JSON.stringify({genre_id: id}),
+					success: function(response) {
+						movies = JSON.parse(response);
+						showEverything(movies);
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});
 			}
 
 			function getMostVoteCount() {
 				discover_title.innerText = "MOST VOTE COUNT";
-			}
-
-			function getTrending() {
-				discover_title.innerText = "TOP TRENDING";
+				var genre = document.getElementById("genreB");
+				genre.style.visibility = "hidden";
+				var myNode = document.getElementById("lista");
+				while (myNode.firstChild) {
+   					 myNode.removeChild(myNode.firstChild);
+				}
+				$.ajax({
+					type: "POST",
+					url: "{{ url_for("get_movies_with_most_vote_count") }}",
+					contentType: "application/json",
+					success: function(response) {
+						movies = JSON.parse(response);
+						showEverything(movies);
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});
 			}
 
 			function getMostSuccessfulCompanies() {
 				discover_title.innerText = "THE MOST SUCCESSFUL COMPANIES";
+				var genre = document.getElementById("genreB");
+				genre.style.visibility = "hidden";
+				var myNode = document.getElementById("lista");
+				while (myNode.firstChild) {
+   					 myNode.removeChild(myNode.firstChild);
+				}
+				$.ajax({
+					type: "POST",
+					url: "{{ url_for("get_the_most_successful_companies")}}",
+					contentType: "application/json",
+					success: function(response) {
+						console.log(response);
+						movies = JSON.parse(response);
+						showEverything(movies);
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});
 			}
 
 			function getMostSuccessfulActors() {
 				discover_title.innerText = "THE MOST SUCCESSFUL ACTORS";
+				var genre = document.getElementById("genreB");
+				genre.style.visibility = "hidden";
+				var myNode = document.getElementById("lista");
+				while (myNode.firstChild) {
+   					 myNode.removeChild(myNode.firstChild);
+				}
 			}
 		</script>
 	</head>
@@ -113,22 +263,35 @@
 			  			<a onclick="getTopRated()">Top rated</a>
 						<a onclick="getHighestGrossing()">Highest grossing</a>				  			
 						<a onclick="getMostVoteCount()">Most vote count</a>
-				  		<a onclick="getTrending()">Trending</a>
 						<a onclick="getMostSuccessfulCompanies()">Most successful companies</a>
 			  			<a onClick="getMostSuccessfulActors()">Most successful actors</a>
 					</div>
 				</div>
-			</div>
-			<div class="grid-container" id="lista">
-		<!--	{% for movie in movies %}
-				<div class="grid-item">
-					<div class="thumbnail" style="background-color: green">
-						<img src="http://image.tmdb.org/t/p/w400/{{movie['poster_path']}}"> 
-						<p style="font-family: Verdana, Geneva, Tahoma, sans-serif"><strong>{{movie['title']}}</strong></p>
+				<div class="dropdown column">
+					<button onclick="myFunction1()" class="dropbtn" style="visibility: hidden" id="genreB">GENRE</button>						
+					<div id="genre" class="dropdown-content"> 
+						<a onClick="byGenre(28)" value="28">Action</a>
+						<a onClick="byGenre(12)" value="12">Adventure</a>
+						<a onClick="byGenre(16)" value="16">Animation</a>
+						<a onClick="byGenre(35)" value="35">Comedy</a>
+						<a onClick="byGenre(80)" value="80">Crime</a>
+						<a onClick="byGenre(99)" value="99">Documentary</a>
+						<a onClick="byGenre(18)" value="18">Drama</a>
+						<a onClick="byGenre(10751)" value="10751">Family</a>
+						<a onClick="byGenre(14)" value="14">Fantasy</a>
+						<a onClick="byGenre(36)" value="36">History</a>
+						<a onClick="byGenre(27)" value="27">Horror</a>
+						<a onClick="byGenre(10402)" value="10402">Music</a>
+						<a onClick="byGenre(9648)" value="9648">Mystery</a>
+						<a onClick="byGenre(10749)" value="10749">Romance</a>
+						<a onClick="byGenre(878)" value="878">SF</a>
+						<a onClick="byGenre(10770)" value="10770">Tv Movie</a>
+						<a onClick="byGenre(53)" value="53">Thriller</a>
+						<a onClick="byGenre(10752)" value="10752">War</a>
 					</div>
 				</div>
-			{% endfor %}-->
 			</div>
+			<div class="grid-container" id="lista"></div>
 		</div>
 	</body>
 </html>

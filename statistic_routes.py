@@ -25,6 +25,9 @@ def most_highest_grossing_movies():
     data = request.get_json()
     return json.dumps(stats.get_highest_grossing_movies(data['year']))
 
+@app.route('/most_highest_grossing_movies_all', methods=['POST'])
+def most_highest_grossing_movies_all():
+    return json.dumps(stats.get_highest_grossing_movies())
 
 @app.route('/movies_with_most_vote_count', methods=['POST'])
 def get_movies_with_most_vote_count():
@@ -52,5 +55,3 @@ def get_the_most_successful_companies():
 @app.route('/most_successful_actors', methods=['POST'])
 def get_the_most_successful_actors():
     return json.dumps(stats.get_the_most_successful_actors())
-
-
