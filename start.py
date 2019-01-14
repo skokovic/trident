@@ -8,7 +8,7 @@ import requests
 import lastfm
 import movie_statistic
 import tmdbsimple as tmdb
-import movie_reccommendation
+import movie_recommendation
 import urllib.request
 import json
 import statistic_routes
@@ -119,7 +119,7 @@ def google_page():
 
     if not user:
         baza.db.Users.insert_one({ "user_id": user_id, "email": email, "social_id": social_id, "first_name": first_name, "last_name": last_name,
-                                    "gender": gender, "location": location, "age_range": age_range, "likes": likes, "picture": picture })
+                                    "gender": gender, "location": location, "age_range": age_range, "likes": likes, "picture": picture, "movie_likes": [] })
         user = baza.db.Users.find_one({"social_id": social_id})
     login_user(User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'], user['gender'], user['location'], user['age_range'], user['likes'], user['picture']), remember= True, force= True)
 
@@ -175,7 +175,7 @@ def oauth_callback(provider):
 
     if not user:
         baza.db.Users.insert_one({  "user_id": int(user_id), "email": email, "social_id": social_id, "first_name": first_name, "last_name": last_name, 
-                                    "gender": gender, "location": location, "age_range": age_range, "likes": likes, "picture": picture })
+                                    "gender": gender, "location": location, "age_range": age_range, "likes": likes, "picture": picture, "movie_likes": [] })
         user = baza.db.Users.find_one({"social_id": social_id})
 
     login_user(User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'], user['gender'], user['location'], user['age_range'], user['likes'], user['picture']), remember= True, force= True)
@@ -187,11 +187,15 @@ def profile():
 
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=271d1234d3f497eed5b1d80a07b3fcd1'
 
-    social_id = current_user.get_id()
+    user_id = current_user.get_id()
     #social_id = "facebook$10215343795441714"
+    if "facebook$" in user_id:
+        user = baza.db.Users.find_one({"social_id": user_id})
+    else:
+        user = baza.db.Users.find_one({"user_id": int(user_id)})
 
     #user = baza.db.Users.find_one({"social_id": current_user.get_id()})
-    user = baza.db.Users.find_one({"social_id": social_id})
+    #user = baza.db.Users.find_one({"social_id": user_id})
     email = user['email']
     name = user['first_name']
     lastname = " " + user['last_name']
@@ -203,7 +207,7 @@ def profile():
     else:
         my_picture = "https://fignow.com/public_html/fignow.com/wp-content/uploads/2016/12/Unknown.jpg"
 
-    recommendation = movie_reccommendation.get_recommended_movies(1)
+    recommendation = movie_recommendation.get_recommended_movies(int(user_id))
 
     list_of_movie_info = []
     for movie_id in recommendation:
@@ -214,7 +218,7 @@ def profile():
 
     recommendation = list_of_movie_info
     if location:
-        city = baza.db.Users.find_one({"social_id": social_id})['location']['name']
+        city = baza.db.Users.find_one({"user_id": user_id})['location']['name']
         response = requests.get(url.format(city)).json()
 
         temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
@@ -241,15 +245,38 @@ def trending():
     trending_movies = movie_statistic.get_trending()
     return render_template('trending.html', trending_movies = trending_movies)
 
+@app.route('/recommendations.html')
+def recommendations():
+    user_id = current_user.get_id()
+    user_id = ''.join(filter(str.isdigit, str(user_id)))
+    recommended_movies = movie_recommendation.get_recommended_movies(user_id)
+    #recommended_movies = movie_recommendation.get_recommended_movies(10218039196831139)
+    movies = []
+    for movie_id in recommended_movies:
+        movie = tmdb_movie_data(movie_id)
+        movies.append(movie)
+
+    return render_template('recommendations.html', movies = movies)
+
 
 @app.route('/movie', methods=['POST'])
 def movie():
-    social_id = current_user.get_id()
+    user_id = current_user.get_id()
     data = request.get_json()
-    data['social_id'] = social_id
-    baza.db.Users.update({'social_id' : social_id}, {'$push' :  {'movie_likes' : {'movie': data['movie'], 'like': data['like']}}}, upsert = True)
+    data['social_id'] = user_id
+    baza.db.Users.update({'user_id' : int(user_id)}, {'$push' :  {'movie_likes' : {'movie': int(data['movie']), 'like': data['like']}}}, upsert = True)
     return jsonify(status="success", data=data)
 
+
+def tmdb_movie_data(tmdb_id):
+    movie = baza.db.MoviesTMDB.find_one({'id': tmdb_id})
+    if movie is None:
+        movie = tmdb.Movies(id=tmdb_id)
+        info = movie.info()
+        print(info['title'], info['imdb_id'])
+        #omdb = movie_data(info['imdb_id'])
+        baza.db.MoviesTMDB.insert_one(info)
+    return movie
 
 def movie_data(imdbid):
     url = "http://www.omdbapi.com/?i={}&apikey=4909d34"
@@ -312,34 +339,6 @@ def movie_info(imdbID):
     movie_info_var = movie_data(imdbID)
 
     return render_template('movie_info.html', movie_info=movie_info_var)
-
-
-# def get_movies_in_theatre:
-
-# def get_upcoming_movies:
-
-# def get_most_popular_movies_today:
-
-# def get_top_rate_movies_ever:
-
-# def get_most_highest_grossing_movies(year=None):
-
-# def get_movies_with_most_vote_count:
-
-# def get_trending:
-
-# def get_most_popular_movies_by_genre(genre_id):
-
-# def get_movies_with_highest_revenue_by_genre:
-
-# def get_the_most_successful_companies:
-
-# def get_the_most_successful_actors:
-
-
-
-
-
 
 
 def main():

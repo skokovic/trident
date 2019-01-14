@@ -1,0 +1,120 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" type="text/css" href="static/css/list.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<div class="container-fluid" style="width: 100%; align-content: center">
+			<div class="row" style="margin-bottom: 25px">
+				 {% include 'navbar.html' %}
+			</div>
+			<div class="grid-container" id="lista">
+			{% for movie in movies %}
+				<div class="grid-item">
+					<div class="thumbnail" style="background-color: green">
+                        <a href="/movie_info<{{ movie['id'] }}>">
+                            <img src="http://image.tmdb.org/t/p/w400/{{movie['poster_path']}}">
+                        </a>
+						<p style="font-family: Verdana, Geneva, Tahoma, sans-serif"><strong>{{movie['title']}}</strong></p>
+					</div>
+				</div>
+			{% endfor %}
+			</div>
+		</div>
+    </body>
+    
+    <script>
+        function myFunction() {
+              document.getElementById("myDropdown").classList.toggle("show");
+        }
+        // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function(event) {
+              if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                   for (i = 0; i < dropdowns.length; i++) {
+                      var openDropdown = dropdowns[i];
+                      if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                      }
+                }
+              }
+        }
+
+        function showEverything(movies) {
+            movies.forEach(mov => {
+                        var newElement = document.createElement('div');
+                        newElement.className = "grid-item";
+                        var newPoster = document.createElement('div');
+                        newPoster.className = "thumbnail";
+                        newPoster.style = "background-color: green";
+                        var picture = document.createElement('img');
+                        picture.src = "http://image.tmdb.org/t/p/w400" + mov['poster_path'];
+                        var title = document.createElement('p');
+                        title.style = "font-family: Verdana, Geneva, Tahoma, sans-serif";
+                        title.innerHTML = mov['title'];
+                        newPoster.appendChild(picture);
+                        newPoster.appendChild(title);
+                        newElement.appendChild(newPoster);
+                        var grid = document.getElementById("lista");
+                        grid.appendChild(newElement);
+            });
+        }
+
+        function getMoviesTheater() {
+            discover_title.innerText = "MOVIES IN THEATER";
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for("movies_in_theatre") }}",
+                contentType: "application/json",
+                //data: JSON.stringify({movie: movie}),
+                //dataType: "json",
+                success: function(response) {
+                    movies = JSON.parse(response);
+                    showEverything(movies);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        }
+
+        function getUpcomingMovies() {
+            discover_title.innerText = "UPCOMING MOVIES";
+        }
+
+        function getMostPopular() {
+            discover_title.innerText = "THE MOST POPULAR MOVIES";
+        }
+
+        function getTopRated() {
+            discover_title.innerText = "TOP RATED MOVIES";
+        }
+
+        function getHighestGrossing() {
+            discover_title.innerText = "HIGHEST GROSSING MOVIES";
+        }
+
+        function getMostVoteCount() {
+            discover_title.innerText = "MOST VOTE COUNT";
+        }
+
+        function getTrending() {
+            discover_title.innerText = "TOP TRENDING";
+        }
+
+        function getMostSuccessfulCompanies() {
+            discover_title.innerText = "THE MOST SUCCESSFUL COMPANIES";
+        }
+
+        function getMostSuccessfulActors() {
+            discover_title.innerText = "THE MOST SUCCESSFUL ACTORS";
+        }
+    </script>
+</html>
