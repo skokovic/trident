@@ -183,17 +183,17 @@ def get_the_most_successful_companies(p=0.8):
     for movie_id in revenue:
         for company in tmdb.Movies(id=movie_id).info()['production_companies']:
             if company['name'] in companies_revenue:
-                companies_revenue[company['name']] += (50-i)
+                companies_revenue[company['name']] += (25-i)
             else:
-                companies_revenue[company['name']] = (50 - i)
+                companies_revenue[company['name']] = (25 - i)
         i += 1
     i = 0
     for movie_id in ratings:
         for company in tmdb.Movies(id=movie_id).info()['production_companies']:
             if company['name'] in companies_ratings:
-                companies_ratings[company['name']] += (50-i)
+                companies_ratings[company['name']] += (25-i)
             else:
-                companies_ratings[company['name']] = (50 - i)
+                companies_ratings[company['name']] = (25 - i)
         i += 1
     for company in companies_revenue:
         companies_grade[company] = companies_revenue[company] * p
@@ -202,7 +202,7 @@ def get_the_most_successful_companies(p=0.8):
             companies_grade[company] += companies_ratings[company] * (1-p)
         else:
             companies_grade[company] = companies_ratings[company] * (1-p)
-    companies = {k: v for k, v in companies_grade.items() if v > 50}
+    companies = {k: v for k, v in companies_grade.items() if v > 25}
     return sorted(companies.items(), key=lambda x: x[1], reverse=True)
 
 
@@ -217,9 +217,9 @@ def get_the_most_successful_actors(p=0.3):
         cast_size = len(cast)
         for j in range(0, cast_size):
             if str(cast[j]['name']) in actors_revenue:
-                actors_revenue[str(cast[j]['name'])] += ((50 - i)*(cast_size-j)/cast_size)
+                actors_revenue[str(cast[j]['name'])] += ((25 - i)*(cast_size-j)/cast_size)
             else:
-                actors_revenue[str(cast[j]['name'])] = ((50 - i)*(cast_size-j)/cast_size)
+                actors_revenue[str(cast[j]['name'])] = ((25 - i)*(cast_size-j)/cast_size)
         i += 1
     i = 0
     for movie_id in ratings:
@@ -227,9 +227,9 @@ def get_the_most_successful_actors(p=0.3):
         cast_size = len(cast)
         for j in range(0, cast_size):
             if str(cast[j]['name']) in actors_ratings:
-                actors_ratings[str(cast[j]['name'])] += ((50 - i)*(cast_size-j)/cast_size)
+                actors_ratings[str(cast[j]['name'])] += ((25 - i)*(cast_size-j)/cast_size)
             else:
-                actors_ratings[str(cast[j]['name'])] = ((50 - i)*(cast_size-j)/cast_size)
+                actors_ratings[str(cast[j]['name'])] = ((25 - i)*(cast_size-j)/cast_size)
         i += 1
     for actor in actors_revenue:
         actors_grade[actor] = actors_revenue[actor] * p
@@ -238,7 +238,7 @@ def get_the_most_successful_actors(p=0.3):
             actors_grade[actor] += actors_ratings[actor] * (1-p)
         else:
             actors_grade[actor] = actors_ratings[actor] * (1-p)
-    actors = {k: v for k, v in actors_grade.items() if v > 50}
+    actors = {k: v for k, v in actors_grade.items() if v > 25}
     return sorted(actors.items(), key=lambda x: x[1], reverse=True)
 
 
@@ -247,10 +247,10 @@ def get_the_most_successful():
     highest_revenue_id = []
     top_rated_id = []
     #get movie ids
-    highest_grossing_movies = get_highest_grossing_movies(number_of_movies_taken=50)
+    highest_grossing_movies = get_highest_grossing_movies(number_of_movies_taken=25)
     for movie in highest_grossing_movies:
         highest_revenue_id.append(movie['id'])
-    top_rated_movies = get_top_rated_movies_ever(number_of_listed=50)
+    top_rated_movies = get_top_rated_movies_ever(number_of_listed=25)
     for movie in top_rated_movies:
         top_rated_id.append(movie['id'])
     return highest_revenue_id, top_rated_id

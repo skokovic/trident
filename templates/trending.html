@@ -50,6 +50,24 @@
 				});
 			}
 
+			function showList(movies) {
+				movies.forEach(mov => {
+					console.log(mov)
+					var newElement = document.createElement('div');
+					newElement.className = "grid-item";
+					var newPoster = document.createElement('div');						
+					newPoster.className = "thumbnail";
+					newPoster.style = "background-color: green";
+					var title = document.createElement('p');
+					title.style = "font-family: Verdana, Geneva, Tahoma, sans-serif";
+					title.innerHTML = mov[0];
+					newPoster.appendChild(title);
+					newElement.appendChild(newPoster);
+					var grid = document.getElementById("lista");
+					grid.appendChild(newElement);
+			});
+			}
+
 			function getMoviesTheater() {
 				discover_title.innerText = "MOVIES IN THEATER";
 				var genre = document.getElementById("genreB");
@@ -228,7 +246,7 @@
 					success: function(response) {
 						console.log(response);
 						movies = JSON.parse(response);
-						showEverything(movies);
+						showList(movies);
 					},
 					error: function(err) {
 						console.log(err);
@@ -244,6 +262,19 @@
 				while (myNode.firstChild) {
    					 myNode.removeChild(myNode.firstChild);
 				}
+				$.ajax({
+					type: "POST",
+					url: "{{ url_for("get_the_most_successful_actors")}}",
+					contentType: "application/json",
+					success: function(response) {
+						console.log(response);
+						movies = JSON.parse(response);
+						showList(movies);
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});
 			}
 		</script>
 	</head>
