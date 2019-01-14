@@ -18,7 +18,9 @@
 			{% for movie in movies %}
 				<div class="grid-item">
 					<div class="thumbnail" style="background-color: green">
-						<img src="http://image.tmdb.org/t/p/w400/{{movie['poster_path']}}"> 
+                        <a href="/movie_info<{{ movie['id'] }}>">
+                            <img class="d-block w-100 container-fluid" src="http://image.tmdb.org/t/p/w400/{{movie['poster_path']}}">
+                        </a>
 						<p style="font-family: Verdana, Geneva, Tahoma, sans-serif"><strong>{{movie['title']}}</strong></p>
 					</div>
 				</div>

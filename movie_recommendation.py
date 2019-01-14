@@ -144,7 +144,7 @@ def get_similar_users_movie_recommendation(user_id):
     users = []
     cursor =  baza.db.Users 
     for document in cursor.find():
-        users.append(int(document['user_id']))
+        users.append(document['user_id'])
 
     #users = [0, 1, 2] #zamijeni sa get all users
 
@@ -177,6 +177,7 @@ def get_similar_users_movie_recommendation(user_id):
 
 
 def get_recommended_movies(user_id):
+    user_id = int(user_id)
     if len(get_list_of_liked_movies_by_user(user_id)) == 0 and len(get_list_of_disliked_movies_by_user(user_id)) == 0:
         ids = []
         for movie in ms.get_most_popular_movies_today():
