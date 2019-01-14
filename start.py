@@ -192,7 +192,7 @@ def profile():
 
 
     #user = baza.db.Users.find_one({"social_id": current_user.get_id()})
-    user = baza.db.Users.find_one({"user_id": user_id})
+    user = baza.db.Users.find_one({"user_id": int(user_id)})
     email = user['email']
     name = user['first_name']
     lastname = " " + user['last_name']
@@ -259,7 +259,7 @@ def movie():
     user_id = current_user.get_id()
     data = request.get_json()
     data['social_id'] = user_id
-    baza.db.Users.update({'user_id' : user_id}, {'$push' :  {'movie_likes' : {'movie': data['movie'], 'like': data['like']}}}, upsert = True)
+    baza.db.Users.update({'user_id' : int(user_id)}, {'$push' :  {'movie_likes' : {'movie': data['movie']['id'], 'like': data['like']}}}, upsert = True)
     return jsonify(status="success", data=data)
 
 
