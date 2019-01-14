@@ -187,11 +187,12 @@ def profile():
 
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=271d1234d3f497eed5b1d80a07b3fcd1'
 
-    social_id = current_user.get_id()
+    user_id = current_user.get_id()
     #social_id = "facebook$10215343795441714"
 
+
     #user = baza.db.Users.find_one({"social_id": current_user.get_id()})
-    user = baza.db.Users.find_one({"social_id": social_id})
+    user = baza.db.Users.find_one({"user_id": user_id})
     email = user['email']
     name = user['first_name']
     lastname = " " + user['last_name']
@@ -214,7 +215,7 @@ def profile():
 
     recommendation = list_of_movie_info
     if location:
-        city = baza.db.Users.find_one({"social_id": social_id})['location']['name']
+        city = baza.db.Users.find_one({"user_id": user_id})['location']['name']
         response = requests.get(url.format(city)).json()
 
         temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
@@ -255,10 +256,10 @@ def recommendations():
 
 @app.route('/movie', methods=['POST'])
 def movie():
-    social_id = current_user.get_id()
+    user_id = current_user.get_id()
     data = request.get_json()
-    data['social_id'] = social_id
-    baza.db.Users.update({'social_id' : social_id}, {'$push' :  {'movie_likes' : {'movie': data['movie'], 'like': data['like']}}}, upsert = True)
+    data['social_id'] = user_id
+    baza.db.Users.update({'user_id' : user_id}, {'$push' :  {'movie_likes' : {'movie': data['movie'], 'like': data['like']}}}, upsert = True)
     return jsonify(status="success", data=data)
 
 
