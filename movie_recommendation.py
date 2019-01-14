@@ -11,7 +11,7 @@ def get_list_of_liked_movies_by_user(user_id):
     liked_movies = []
     print("REKOMENDEJSN!!!")
     print(user_id)
-    user = baza.db.Users.find_one({"social_id": user_id})
+    user = baza.db.Users.find_one({"user_id": int(user_id)})
     print(user)
     movies = user['movie_likes']
     if movies is not None:
@@ -34,7 +34,7 @@ def get_list_of_liked_movies_by_user(user_id):
 def get_list_of_disliked_movies_by_user(user_id):
     disliked_movies = []
     print(user_id)
-    user = baza.db.Users.find_one({"social_id": user_id})
+    user = baza.db.Users.find_one({"user_id": int(user_id)})
     print(user)
     movies = user['movie_likes']
     if movies is not None:
@@ -120,7 +120,7 @@ def make_ratings_table():
     users = []
     cursor =  baza.db.Users 
     for document in cursor.find():
-        users.append(document['social_id'])
+        users.append(document['user_id'])
 
     #users = [0, 1, 2]  # zamijeniti s getanjem liste svih usera 
 

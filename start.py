@@ -244,6 +244,7 @@ def trending():
 @app.route('/recommendations.html')
 def recommendations():
     user_id = current_user.get_id()
+    user_id = ''.join(filter(str.isdigit, str(user_id)))
     recommended_movies = movie_recommendation.get_recommended_movies(user_id)
     #recommended_movies = movie_recommendation.get_recommended_movies(10218039196831139)
     movies = []
