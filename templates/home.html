@@ -63,32 +63,33 @@
 									
 								{%else%}
 									<div class="carousel-item">
-										<div style="width:50%">
+										<div style="width:100%">
                                             <a href="/movie_info<{{ movie['id'] }}>">
-                                                <img class="d-block w-100" src="http://image.tmdb.org/t/p/w1280/{{movie['poster_path']}}" alt="Second slide" height="80%">
+                                                <img class="d-block w-100" src="http://image.tmdb.org/t/p/w1280/{{movie['backdrop_path']}}" alt="Second slide" height="80%">
                                             </a>
-                                        </div>
-										<div class="carousel_div">
-											<div class="title_row">
-												<div class="col-md-12 title_carousel ">
-													{{movie['title']}}
-												</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="">
+											<div class="col-md-12">
+												{{movie['title']}}
 											</div>
-											<div class="row  movie_overview">
-												<div class="col-md-12 text_bg">
-													{{movie['overview']}}
-												</div>
+										</div>
+										<div class="row  ">
+											<div class="col-md-12 ">
+												{{movie['overview']}}
 											</div>
-											<div class="row thumb_row">
-												<div class="col-md-6 thumb thumb_up">
-													<i onclick="like_click('{{movie['id']}}')" class="far fa-thumbs-up"></i>
-												</div>
-												<div class="col-md-6 thumb thumb_up" style="padding-top:3%">
-													<i onclick="dislike_click('{{movie['id']}}')" class="far fa-thumbs-down"></i>
-												</div>
+										</div>
+										<div class="row thumb_row">
+											<div class="col-md-6 thumb thumb_up">
+												<i onclick="like_click('{{movie['id']}}')" class="far fa-thumbs-up"></i>
+											</div>
+											<div class="col-md-6 thumb thumb_up" style="padding-top:3%">
+												<i onclick="dislike_click('{{movie['id']}}')" class="far fa-thumbs-down"></i>
 											</div>
 										</div>
 									</div>
+									
 								{%endif%}
 							{% endfor %}
 						</div>
