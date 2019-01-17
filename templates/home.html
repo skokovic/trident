@@ -33,35 +33,33 @@
 							{% for movie in upcoming %}
 								{% if loop.index0 == 0 %}
 									<div class="carousel-item active">
-									  	<div style="width:100% !important">
+									  	<!-- <div style="width:100% !important"> -->
                                             <a href="/movie_info<{{ movie['id'] }}>">
                                                 <img class="d-block w-100 container-fluid" src="http://image.tmdb.org/t/p/w1280/{{movie['backdrop_path']}}" alt="First slide" height="80%">
                                             </a>
-										</div>
+										<!-- </div> -->
 										<div class="carousel-caption">
-												<h3>
-													<i onclick="like_click('{{movie['id']}}')" class="far fa-heart fa-3x"></i>
-													<span style="padding-left: 100px; padding-right: 100px">{{movie['title']}}</span>									
+												<h2>
+													<i onclick="like_click('{{movie['id']}}')" class="far fa-heart fa-2x"></i>
+													<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>									
 													<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle fa-2x"></i>
-												</h3>
-											</div>
+												</h2>
 										</div>
 									</div>	
 									
 								{%else%}
 									<div class="carousel-item">
-										<div style="width:100%">
+										<!-- <div style="width:100%"> -->
                                             <a href="/movie_info<{{ movie['id'] }}>">
                                                 <img class="d-block w-100" src="http://image.tmdb.org/t/p/w1280/{{movie['backdrop_path']}}" alt="Second slide" height="80%">
                                             </a>
-										</div>
+										<!-- </div> -->
 										<div class="carousel-caption">
-												<h3>
-													<i onclick="like_click('{{movie['id']}}')" class="far fa-heart fa-3x"></i>
-													<span style="padding-left: 100px; padding-right: 100px">{{movie['title']}}</span>									
+												<h2>
+													<i onclick="like_click('{{movie['id']}}')" class="far fa-heart fa-2x"></i>
+													<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>									
 													<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle fa-2x"></i>
-												</h3>
-											</div>
+												</h2>
 										</div>
 									</div>								
 								{%endif%}
