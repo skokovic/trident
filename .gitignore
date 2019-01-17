@@ -4,6 +4,7 @@
 .idea
 .vscode
 .settings
+.DS_store
 
 # Random files
 *~
