@@ -38,18 +38,10 @@
                                                 <img class="d-block w-100 container-fluid" src="http://image.tmdb.org/t/p/w1280/{{movie['backdrop_path']}}" alt="First slide" height="80%">
                                             </a>
 										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-6 thumb thumb_up" style="">
+										<div class="carousel-caption">
 												<i onclick="like_click('{{movie['id']}}')" class="far fa-heart"></i>
-										</div>
-										<div class="">
-											<div class="col-md-12">
-												{{movie['title']}}
-											</div>
-										</div>
-										<div class="col-md-6 thumb thumb_up" style="padding-top:3%">
-											<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle"></i>
+												<h3>{{movie['title']}}</h3>
+												<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle"></i>
 										</div>
 									</div>
 									
@@ -60,21 +52,12 @@
                                                 <img class="d-block w-100" src="http://image.tmdb.org/t/p/w1280/{{movie['backdrop_path']}}" alt="Second slide" height="80%">
                                             </a>
 										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-6 thumb thumb_up">
+										<div class="carousel-caption">
 												<i onclick="like_click('{{movie['id']}}')" class="far fa-heart"></i>
+												<h3>{{movie['title']}}</h3>
+												<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle"></i>
 										</div>
-										<div class="">
-											<div class="col-md-12">
-												{{movie['title']}}
-											</div>
-										</div>
-										<div class="col-md-6 thumb thumb_up" style="">
-											<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle"></i>
-										</div>
-									</div>
-									
+									</div>								
 								{%endif%}
 							{% endfor %}
 						</div>
