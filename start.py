@@ -207,20 +207,22 @@ def profile():
     else:
         my_picture = "https://fignow.com/public_html/fignow.com/wp-content/uploads/2016/12/Unknown.jpg"
 
-    recommendation = movie_recommendation.get_recommended_movies(int(user_id))
+    recommendation = user['movie_likes']
 
     list_of_movie_info = []
     for movie_id in recommendation:
-        id_new = urllib.request.urlopen("https://api.themoviedb.org/3/movie/"+ str(movie_id)+"?api_key=b2dd64617f8c64de2a3c3c0ada9f73ec").read()
+        id_new = urllib.request.urlopen("https://api.themoviedb.org/3/movie/"+ str(movie_id['movie'])+"?api_key=b2dd64617f8c64de2a3c3c0ada9f73ec").read()
         id_new = id_new.decode("utf-8")
         json_data = json.loads(id_new)
-        #list_of_movie_info.append(movie_data(json_data['imdb_id']))
+        list_of_movie_info.append(movie_data(json_data['imdb_id']))
 
+    # recommendation = user['movies_likes']['movie']
     recommendation = list_of_movie_info
     if location:
         city = user['location']['name']
-        response = requests.get(url.format(city)).json()
-
+        response = requests.get(url.format("Zagreb")).json()
+        print("#############WEATHER#############")
+        print(response)
         temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
 
         weather_info = {
