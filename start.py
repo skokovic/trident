@@ -217,7 +217,7 @@ def profile():
 
     list_of_movie_info = []
     for movie_id in recommendation:
-        json_data = tmdb_movie_data(movie_id)
+        json_data = tmdb_movie_data(movie_id['movie'])
         list_of_movie_info.append(movie_data(json_data['imdb_id']))
 
     random_cities = ['London', 'Rio de Janeiro', 'Los Angeles', 'Tokyo', 'Sidney']
