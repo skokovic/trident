@@ -39,9 +39,11 @@
                                             </a>
 										</div>
 										<div class="carousel-caption">
-												<i onclick="like_click('{{movie['id']}}')" class="far fa-heart"></i>
-												<h3>{{movie['title']}}</h3>
-												<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle"></i>
+											<h3>
+												<i onclick="like_click('{{movie['id']}}')" class="far fa-heart fa-3x"></i>
+												{{movie['title']}}									
+												<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle fa-3x"></i>
+											</h3>
 										</div>
 									</div>
 									
@@ -53,9 +55,12 @@
                                             </a>
 										</div>
 										<div class="carousel-caption">
-												<i onclick="like_click('{{movie['id']}}')" class="far fa-heart"></i>
-												<h3>{{movie['title']}}</h3>
-												<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle"></i>
+												<h3>
+													<i onclick="like_click('{{movie['id']}}')" class="far fa-heart fa-3x"></i>
+													{{movie['title']}}									
+													<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle fa-3x"></i>
+												</h3>
+											</div>
 										</div>
 									</div>								
 								{%endif%}
