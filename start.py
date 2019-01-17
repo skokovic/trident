@@ -12,6 +12,13 @@ import movie_recommendation
 import urllib.request
 import json
 import statistic_routes
+import pyowm
+import random
+import omdb
+
+owm = pyowm.OWM('571ac439b33fee0ac1d7f927bd25546b')
+omdbc = omdb.OMDBClient(apikey='4909d34')
+lastfmc = lastfm.LastFM()
 
 SECRET_KEY = '123'
 DEBUG = True
@@ -181,21 +188,20 @@ def oauth_callback(provider):
     login_user(User(user['user_id'], user['email'], user['social_id'], user['first_name'], user['last_name'], user['gender'], user['location'], user['age_range'], user['likes'], user['picture']), remember= True, force= True)
     return redirect(url_for('home'))
 
+def fetch_right_user(id):
+    if "facebook$" in id:
+        user = baza.db.Users.find_one({"social_id": id})
+    else:
+        user = baza.db.Users.find_one({"user_id": int(id)})
+    return user
+
 
 @app.route('/my_profile')
 def profile():
-
-    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=271d1234d3f497eed5b1d80a07b3fcd1'
-
     user_id = current_user.get_id()
     #social_id = "facebook$10215343795441714"
-    if "facebook$" in user_id:
-        user = baza.db.Users.find_one({"social_id": user_id})
-    else:
-        user = baza.db.Users.find_one({"user_id": int(user_id)})
+    user = fetch_right_user(user_id)
 
-    #user = baza.db.Users.find_one({"social_id": current_user.get_id()})
-    #user = baza.db.Users.find_one({"social_id": user_id})
     email = user['email']
     name = user['first_name']
     lastname = " " + user['last_name']
@@ -211,25 +217,31 @@ def profile():
 
     list_of_movie_info = []
     for movie_id in recommendation:
-        id_new = urllib.request.urlopen("https://api.themoviedb.org/3/movie/"+ str(movie_id['movie'])+"?api_key=b2dd64617f8c64de2a3c3c0ada9f73ec").read()
-        id_new = id_new.decode("utf-8")
-        json_data = json.loads(id_new)
+        json_data = tmdb_movie_data(movie_id)
         list_of_movie_info.append(movie_data(json_data['imdb_id']))
 
-    # recommendation = user['movies_likes']['movie']
+    random_cities = ['London', 'Rio de Janeiro', 'Los Angeles', 'Tokyo', 'Sidney']
     recommendation = list_of_movie_info
     if location:
         city = user['location']['name']
-        response = requests.get(url.format("Zagreb")).json()
-        print("#############WEATHER#############")
-        print(response)
-        temperature = round((response['main']['temp'] - 32) * 5 / 9, 2)
+        try:
+            observation = owm.weather_at_place(city)
+        except:
+            try:
+                observation = owm.weather_at_place(city.split(',')[0])
+            except:
+                observation = owm.weather_at_place(random.choice(random_cities))
+
+
+        observation = owm.weather_at_place(city)
+        w = observation.get_weather()
+        temperature = w.get_temperature('celsius')['temp']
 
         weather_info = {
             'city': city,
             'temperature': str(temperature)+ " " + u'\N{DEGREE SIGN}'+"C" ,
-            'description': response['weather'][0]['description'] + " at " + (city.split(","))[0],
-            'icon': response['weather'][0]['icon'],
+            'description': w.get_detailed_status() + " at " + (city.split(","))[0],
+            'icon': w.get_weather_icon_url(),
         }
     else:
         weather_info = {
@@ -275,9 +287,15 @@ def tmdb_movie_data(tmdb_id):
     if movie is None:
         movie = tmdb.Movies(id=tmdb_id)
         info = movie.info()
-        print(info['title'], info['imdb_id'])
-        #omdb = movie_data(info['imdb_id'])
+        #omdb = omdb_movie_data(info['imdb_id'])
         baza.db.MoviesTMDB.insert_one(info)
+    return movie
+
+def omdb_movie_data(omdb_id):
+    movie = baza.db.MoviesOMDB.find_one({'imdbID': id})
+    if movie is None:
+        movie = omdbc.imdbid(omdb_id)
+        baza.db.MoviesOMDB.insert_one(movie)
     return movie
 
 def movie_data(imdbid):
@@ -287,7 +305,7 @@ def movie_data(imdbid):
 
     if not movie_info_var:
         response = requests.get(url.format(imdbid)).json()
-        last_request = lastfm.LastFM()
+        #last_request = lastfm.LastFM()
         print(imdbid)
         trailer = "www.youtube.com/watch?v=" + tmdb.Movies(id=imdbid).videos()['results'][0]['key']
         print(trailer)
