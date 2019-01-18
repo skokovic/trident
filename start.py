@@ -313,7 +313,7 @@ def movie_data(imdbid):
         trailer = "www.youtube.com/watch?v=" + tmdb.Movies(id=imdbid).videos()['results'][0]['key']
         print(trailer)
         soundtrack_title = response['Title'] + " soundtrack"
-        soundtrack = last_request.get_movie_album("album.search", {"album": soundtrack_title})
+        soundtrack = lastfmc.get_movie_album("album.search", {"album": soundtrack_title})
         soundtrack = soundtrack[:-1]
 
         movie_info_var = {
