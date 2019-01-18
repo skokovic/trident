@@ -104,7 +104,7 @@
 			type: "POST",
 			url: "{{ url_for("movie") }}",
 			contentType: "application/json",
-			data: JSON.stringify({"movie": movie['id'], "like": true}),
+			data: JSON.stringify({"movie": movie, "like": true}),
 			dataType: "json",
 			success: function(response) {
 				console.log(response);
@@ -120,7 +120,7 @@
 			type: "POST",
 			url: "{{ url_for("movie") }}",
 			contentType: "application/json",
-			data: JSON.stringify({"movie": movie['id'], "like": false}),
+			data: JSON.stringify({"movie": movie, "like": false}),
 			dataType: "json",
 			success: function(response) {
 				$(`#dislike${index}`).toggleClass("fas far");
