@@ -218,7 +218,7 @@ def profile():
     if location_out is not None:
         location = location_out['name']
     else:
-        location = 'Not defined'
+        location = None
 
     if 'picture' in user:
         my_picture = user['picture']['data']['url']
