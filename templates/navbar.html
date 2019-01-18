@@ -25,14 +25,13 @@
 		  <li class="nav-item">
 		    <a class="nav-link" href="my_profile">{{current_user.first_name}} <span class="sr-only">(current)</span></a>
 			</li>
-			{% else %}
-
-			{% endif %}
 		</ul>
-		<form class="form-inline my-3 my-lg-0">
-			  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+		<form action="/search_movies" method="POST" class="form-inline my-3 my-lg-0">
+			  <input class="form-control mr-sm-2" name="movie_keyword" type="search" placeholder="Search" aria-label="Search">
 			  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search movies</button>
 		</form>
+		{% else %}
+		{% endif %}
 		{% if current_user.is_authenticated %}
 				<form action="/logout" class="form-inline my-1 my-lg-0" style="margin-left:5%">
 						<button  class="btn btn-primary login_button" type="submit">Logout</button>

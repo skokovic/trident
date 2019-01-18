@@ -273,6 +273,15 @@ def recommendations():
     return render_template('recommendations.html', movies = movies)
 
 
+@app.route('/search_movies', methods=['POST'])
+def search_movies():
+    search = tmdb.Search()
+    response = search.movie(query=movie_keyword)
+    movies = search.results
+
+    return render_template('search.html', movies = movies)
+
+
 @app.route('/movie', methods=['POST'])
 def movie():
     user_id = current_user.get_id()
