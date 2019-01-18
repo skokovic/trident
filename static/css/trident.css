@@ -207,13 +207,8 @@ body{
 }
 
 .home-fit{
-    top: 40px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: absolute;
-    width: auto;
-    height: auto;
+    height: calc(100vh - 56px) !important;
+    width: 100vw !important;
 }
 
 .text_bg{

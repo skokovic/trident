@@ -17,8 +17,8 @@
 				<div class="row">
 					 {% include 'navbar.html' %}
 				</div>
-				<div class="home-fit">
-					 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+				<header>
+					 <div id="carouselExampleIndicators" class="carousel slide home-fit" data-ride="carousel">
 						<ol class="carousel-indicators">
 							{% for movie in upcoming %}
 								{% if loop.index0 == 0 %}
@@ -74,7 +74,7 @@
 							<span class="sr-only">Next</span>
 						</a>
 					</div>
-				</div>
+				</header>
 			</div>
 		</body>
 </html>
