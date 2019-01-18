@@ -235,8 +235,8 @@ def profile():
 
     random_cities = ['London', 'Rio de Janeiro', 'Los Angeles', 'Tokyo', 'Sidney']
     recommendation = list_of_movie_info
-    if location:
-        city = user['location']['name']
+    if location is not None:
+        city = location
         try:
             observation = owm.weather_at_place(city)
         except:
