@@ -279,6 +279,9 @@ def search_movies():
     search = tmdb.Search()
     response = search.movie(query=keyword)
     movies = search.results
+    for movie in movies:
+        tmdb_movie_data(movie['id'])
+
 
     return render_template('search.html', movies = movies)
 
