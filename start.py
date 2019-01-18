@@ -245,8 +245,6 @@ def profile():
             except:
                 observation = owm.weather_at_place(random.choice(random_cities))
 
-
-        observation = owm.weather_at_place(city)
         w = observation.get_weather()
         temperature = w.get_temperature('celsius')['temp']
 
