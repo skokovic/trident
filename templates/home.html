@@ -44,6 +44,9 @@
 														<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>									
 														<i id="dislike0" onclick="dislike_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-times-circle"></i>
 													</h1>
+													<p>
+														{{movie['overview']}}
+													</p>
 											</div>
 										</div>
 									</div>	
@@ -60,6 +63,9 @@
 															<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>									
 															<i id="dislike{{loop.index}}" onclick="dislike_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-times-circle"></i>
 														</h1>
+														<p>
+															{{movie['overview']}}
+														</p>
 												</div>
 											</div>
 									</div>								
