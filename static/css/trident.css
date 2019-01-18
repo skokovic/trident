@@ -207,8 +207,13 @@ body{
 }
 
 .home-fit{
-    height: 100% !important;
-    width: 100% !important;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    width: auto;
+    height: auto;
 }
 
 .text_bg{
