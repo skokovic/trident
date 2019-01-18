@@ -261,7 +261,7 @@ def profile():
         temperature = w.get_temperature('celsius')['temp']
 
         weather_info = {
-            'city': "Here's one random: " + city,
+            'city': city,
             'temperature': str(temperature)+ " " + u'\N{DEGREE SIGN}'+"C" ,
             'description': w.get_detailed_status() + " at " + (city.split(","))[0],
             'icon': w.get_weather_icon_url(),
