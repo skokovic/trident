@@ -255,12 +255,13 @@ def profile():
             'icon': w.get_weather_icon_url(),
         }
     else:
-        observation = owm.weather_at_place(random.choice(random_cities))
+        city = random.choice(random_cities)
+        observation = owm.weather_at_place(city)
         w = observation.get_weather()
         temperature = w.get_temperature('celsius')['temp']
 
         weather_info = {
-            'city': city,
+            'city': "Here's one random: " + city,
             'temperature': str(temperature)+ " " + u'\N{DEGREE SIGN}'+"C" ,
             'description': w.get_detailed_status() + " at " + (city.split(","))[0],
             'icon': w.get_weather_icon_url(),
