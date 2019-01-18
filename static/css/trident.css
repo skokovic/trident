@@ -207,8 +207,8 @@ body{
 }
 
 .home-fit{
-    height: calc(100vh - 56px) !important;
-    width: 100vw !important;
+    height: 100% !important;
+    width: 100% !important;
 }
 
 .text_bg{
