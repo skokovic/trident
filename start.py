@@ -275,8 +275,9 @@ def recommendations():
 
 @app.route('/search_movies', methods=['POST'])
 def search_movies():
+    keyword = request.form['movie_keyword']
     search = tmdb.Search()
-    response = search.movie(query=movie_keyword)
+    response = search.movie(query=keyword)
     movies = search.results
 
     return render_template('search.html', movies = movies)
