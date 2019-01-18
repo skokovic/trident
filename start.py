@@ -255,11 +255,15 @@ def profile():
             'icon': w.get_weather_icon_url(),
         }
     else:
+        observation = owm.weather_at_place(random.choice(random_cities))
+        w = observation.get_weather()
+        temperature = w.get_temperature('celsius')['temp']
+
         weather_info = {
-            'city': "",
-            'temperature': "",
-            'description': "",
-            'icon': "https://cdn0.iconfinder.com/data/icons/location-9/54/pin-blocked-512.png"
+            'city': city,
+            'temperature': str(temperature)+ " " + u'\N{DEGREE SIGN}'+"C" ,
+            'description': w.get_detailed_status() + " at " + (city.split(","))[0],
+            'icon': w.get_weather_icon_url(),
         }
 
     return render_template('my_profile.html', reccomendation = recommendation, my_picture = my_picture, weather_info= weather_info, email = email, name = name, lastname = lastname, gender = gender, age = age, location = location)
