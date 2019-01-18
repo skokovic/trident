@@ -57,7 +57,7 @@
 														<h1>
 															<i id="like{{loop.index}}" onclick="like_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-heart"></i>
 															<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>									
-															<i id="{{loop.index}}" onclick="dislike_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-times-circle"></i>
+															<i id="dislike{{loop.index}}" onclick="dislike_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-times-circle"></i>
 														</h1>
 												</div>
 											</div>
@@ -123,6 +123,7 @@
 			data: JSON.stringify({"movie": movie, "like": false}),
 			dataType: "json",
 			success: function(response) {
+				console.log(response);
 				$(`#dislike${index}`).toggleClass("fas far");
 			},
 			error: function(err) {
