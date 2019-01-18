@@ -206,6 +206,11 @@ body{
     padding: 10%;
 }
 
+.home-fit{
+    height: calc(100vh - 56);
+    width: 100vw
+}
+
 .text_bg{
     
 }

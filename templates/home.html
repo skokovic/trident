@@ -17,7 +17,7 @@
 				<div class="row">
 					 {% include 'navbar.html' %}
 				</div>
-				<div class="w-100 h-100">
+				<div class="home-fit">
 					 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 						<ol class="carousel-indicators">
 							{% for movie in upcoming %}
@@ -29,13 +29,13 @@
 							{%endfor%}
 
 						</ol>
-						<div class="carousel-inner w-100 h-100" role="listbox">
+						<div class="carousel-inner home-fit" role="listbox">
 							{% for movie in upcoming %}
 								{% if loop.index0 == 0 %}
-									<div class="carousel-item active w-100 h-100">
-										<div class="d-flex align-items-center justify-content-center min-vh-100 w-100 h-100">
-											<a href="/movie_info<{{ movie['id'] }}>" class="w-100 h-100">
-                                                <img class="d-block w-100 h-100 container-fluid" src="http://image.tmdb.org/t/p/w1280/{{movie['backdrop_path']}}" alt="First slide" height="80%">
+									<div class="carousel-item active home-fit">
+										<div class="d-flex align-items-center justify-content-center home-fit">
+											<a href="/movie_info<{{ movie['id'] }}>" class="home-fit">
+                                                <img class="home-fit container-fluid" src="http://image.tmdb.org/t/p/w1280/{{movie['backdrop_path']}}" alt="First slide" height="80%">
                                             </a>
 											<div class="carousel-caption">
 													<h2>
@@ -48,10 +48,10 @@
 									</div>	
 									
 								{%else%}
-									<div class="carousel-item w-100 h-100">
-										<div class="d-flex align-items-center justify-content-center min-vh-100 w-100 h-100">
+									<div class="carousel-item home-fit">
+										<div class="d-flex align-items-center justify-content-center home-fit">
 												<a href="/movie_info<{{ movie['id'] }}>">
-													<img class="d-block w-100 h-100 container-fluid" src="http://image.tmdb.org/t/p/w1280/{{movie['backdrop_path']}}" alt="First slide" height="80%">
+													<img class="home-fit container-fluid" src="http://image.tmdb.org/t/p/w1280/{{movie['backdrop_path']}}" alt="First slide" height="80%">
 												</a>
 												<div class="carousel-caption">
 														<h2>
