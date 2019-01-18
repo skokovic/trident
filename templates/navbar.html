@@ -33,9 +33,11 @@
 		{% else %}
 		{% endif %}
 		{% if current_user.is_authenticated %}
+			<div class="navbar-nav ml-auto">
 				<form action="/logout" class="form-inline my-1 my-lg-0" style="margin-left:5%">
 						<button  class="btn btn-primary login_button" type="submit">Logout</button>
 				</form>
+			</div>
 		{% else %}
 				<form action="/login_page" class="form-inline my-1 my-lg-0" style="margin-left:5%">
 					<button  class="btn btn-primary login_button" type="submit">Login</button>
