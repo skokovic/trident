@@ -202,12 +202,26 @@ def profile():
     #social_id = "facebook$10215343795441714"
     user = fetch_right_user(user_id)
 
+    # TODO add checks for these fields if they are null or not!
     email = user['email']
     name = user['first_name']
     lastname = " " + user['last_name']
     gender = user['gender']
-    age = user['age_range']['min']
+
+    age_range = user['age_range']
+    if age_range is not None:
+        age = age_range['min']
+    else:
+        age = 'Not defined'
+
+    location_out = user['location']
+    if location_out is not None:
+        location = location_out['name']
+    else:
+        location = 'Not defined'
+    
     location = user['location']['name']
+    
     if 'picture' in user:
         my_picture = user['picture']['data']['url']
     else:
@@ -218,6 +232,7 @@ def profile():
     list_of_movie_info = []
     for movie_id in recommendation:
         json_data = tmdb_movie_data(movie_id['movie'])
+        # TODO append if db.user.movie_likes.search(json_data['id']) is not None
         list_of_movie_info.append(movie_data(json_data['imdb_id']))
 
     random_cities = ['London', 'Rio de Janeiro', 'Los Angeles', 'Tokyo', 'Sidney']
