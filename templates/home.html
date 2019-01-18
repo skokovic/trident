@@ -12,8 +12,8 @@
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 			<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css' integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymous'>
 		</head>
-		<body>
-			<div class="" style="height:100%">
+		<body class="w-100 h-100">
+			<div class="w-100 h-100">
 				<div class="row">
 					 {% include 'navbar.html' %}
 				</div>
@@ -38,11 +38,11 @@
                                                 <img class="home-fit" src="http://image.tmdb.org/t/p/w1280/{{movie['backdrop_path']}}" alt="First slide">
                                             </a>
 											<div class="carousel-caption">
-													<h2>
-														<i onclick="like_click('{{movie['id']}}')" class="far fa-heart fa-2x"></i>
+													<h1>
+														<i onclick="like_click('{{movie['id']}}')" class="far fa-heart"></i>
 														<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>									
-														<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle fa-2x"></i>
-													</h2>
+														<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle"></i>
+													</h1>
 											</div>
 										</div>
 									</div>	
@@ -54,11 +54,11 @@
 													<img class="home-fit" src="http://image.tmdb.org/t/p/w1280/{{movie['backdrop_path']}}" alt="First slide">
 												</a>
 												<div class="carousel-caption">
-														<h2>
-															<i onclick="like_click('{{movie['id']}}')" class="far fa-heart fa-2x"></i>
+														<h1>
+															<i onclick="like_click('{{movie['id']}}')" class="far fa-heart"></i>
 															<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>									
-															<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle fa-2x"></i>
-														</h2>
+															<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle"></i>
+														</h1>
 												</div>
 											</div>
 									</div>								
