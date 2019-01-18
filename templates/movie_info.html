@@ -5,7 +5,7 @@
         <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="static/css/trident.css">
-        <link rel="stylesheet" type="text/css" href="static/css/movie_info.css">
+        <link rel="stylesheet" type="text/css" href="static/css/infomovie.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     		<link rel="stylesheet" type="text/css" href="../static/css/trident.css">
@@ -21,163 +21,81 @@
         <div class="row">
             {% include 'navbar.html' %}
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="image_wrapper">
-                        <img src="{{ movie_info.image }}" alt="Image" width="auto" height="550px">
-                    </div>
-                </div>
-                <div class="col-md-6 movie_info_all">
-                    <div class="">
-                        <div class="col-md-12">
-                            <div class="movie_title">
-                                {{ movie_info.title }}
+        <div class="container-fluid" >
+            <div class="row info-div">
+                <div class="col-md-12" >
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="image">
+                                <img src="{{movie_info.image}}" style="box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
                             </div>
-                            <div class="about_movie_data">
-                                    <div class="" style="">
-                                        <i onclick="like_click('{{movie_info['title']}}')" class="far fa-thumbs-up thumb thumb_up info_thumb"></i>
-                                        <i onclick="dislike_click('{{movie_info['title']}}')" class="far fa-thumbs-down thumb thumb_up info_thumb"></i>
+                        </div>
+                        <div class="col-md-8">
 
+                            <div class="about_mov">
+                                <div class="row title_mov">
+                                    <div class="col-md-9">
+                                        {{movie_info.title}}
+                                    </div>
+                                    <div class="col-md-1">
+                                         {% if current_user.is_authenticated %}
+                                        <i id="like0" onclick="like_click('{{movie_info.title}}')" class="far fa-heart point icon_i"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-1">
+                                         {% if current_user.is_authenticated %}
+                                        <i id="dislike0" onclick="dislike_click('{{movie_info.title}}')" class="icon_i far fa-times-circle point"></i>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="about_other">
+                                <div class="row genre_mov">
+                                    <div class="col-md-6">
+                                        <div class="genre">
+                                            {{movie_info.genre}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="released">
+                                            {{movie_info.released}}
+                                        </div>
                                     </div>
 
-
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row about_movie_info">
-                        <div class="col-md-6">
-                            <div class="font_about">
-                                Realeased:
+                            <div class="about_other">
+                                <div class="row overview_mov">
+                                    {{movie_info.plot}}
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="about_movie_data">
-                                {{ movie_info.released }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 2%">
-                        <div class="col-md-6">
-                            <div class="font_about">
-                                Rated:
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="about_movie_data">
-                                {{ movie_info.rated }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 2%">
-                        <div class="col-md-6">
-                            <div class="font_about">
-                                Runtime:
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="about_movie_data">
-                                {{ movie_info.runtime }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 2%">
-                        <div class="col-md-6">
-                            <div class="font_about">
-                                Genre:
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="about_movie_data">
-                                {{ movie_info.genre }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 2%">
-                        <div class="col-md-6">
-                            <div class="font_about">
-                                Director:
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="about_movie_data">
-                                {{ movie_info.director }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 2%">
-                        <div class="col-md-6">
-                            <div class="font_about">
-                                Actors:
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="about_movie_data">
-                                {{ movie_info.actors }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 2%">
-                        <div class="col-md-6">
-                            <div class="font_about">
-                                Plot:
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="about_movie_data">
-                                {{ movie_info.plot }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 2%">
-                        <div class="col-md-6">
-                            <div class="font_about">
-                                Awards:
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="about_movie_data">
-                                {{ movie_info.awards }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 2%">
-                        <div class="col-md-6">
-                            <div class="font_about">
-                                Rating:
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="about_movie_data">
-                                {{ movie_info.rating_source }}: {{ movie_info.rating_value }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 2%">
-                        <div class="col-md-6">
-                            <div class="font_about">
-                                Trailer:
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="about_movie_data">
-                                <a href="{{link}}">{{ movie_info.trailer }}</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 2%">
-                        <div class="col-md-6">
-                            <div class="font_about">
-                                Soundtrack:
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="about_movie_data">
-                                <select  style="width: 300px !important" onchange="location = this.value;">
-                                    {% for link in movie_info.soundtrack%}
-                                    <option  value="{{link}}"><a href="{{link}}">{{link}}</a> </option>
-                                    {% endfor %}
-                                </select>
+                            <div class="about_other">
+                                <div class="row director_mov">
+                                {{movie_info.director}}
+                                </div>
+                                <div class="row actors_mov">
+                                    {{movie_info.actors}}
+                                </div>
+                                <div class="row actors_mov" style="margin-top:3% !important;">
+                                   Awards: {{movie_info.awards}}
+                                </div>
+                                <div class="row actors_mov">
+                                   Runtime: {{movie_info.runtime}}
+                                </div>
+                                <div class="row actors_mov">
+                                   Rated: {{movie_info.rated}}
+                                </div>
+                                <div class="row actors_mov">
+                                    {{ movie_info.rating_source }}: {{ movie_info.rating_value }}
+                                </div>
+                                <div class="row actors_mov ">
+                                    <div class="col-md-1 links">
+                                        <a href="{{ movie_info.trailer }}">Trailer</a>
+                                    </div>
+                                    <div class="col-md-2 links">
+                                         <a href="{{ movie_info.soundtrack[0] }}">Soundtrack</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -219,3 +137,4 @@
 			}
 		});
    }
+</script>

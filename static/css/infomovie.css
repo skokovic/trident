@@ -1,0 +1,63 @@
+.info-div{
+    margin-top:5%;
+    margin-bottom:20%;
+    height:100%;
+    width:auto;
+    background : rgb(20,23,19, 0.3);
+    z-index: -1;
+}
+
+.image{
+    margin-top: 15%;
+    margin-left: 15%;
+    opacity: 1 !important;
+}
+
+.about_mov{
+    margin-left: 10%;
+    margin-top: 8%;
+}
+.title_mov{
+    color: white;
+    font-size : 30px;
+    margin-left: 1% !important;
+    font-weight : bold;
+}
+
+.about_other{
+    margin-top: 3%;
+    color: #d9d9db;
+    margin-left: 10%;
+    font-size:17px;
+}
+
+.genre_mov{
+    font-size: 20px;
+}
+.genre{
+    float:left;
+    margin-left:-15px !important;
+}
+.released{
+    float: right;
+    margin-right:10%;
+}
+.director_mov{
+    margin-top:7% !important;
+    font-size: 16px;
+    font-weight:bold
+}
+
+.actors_mov{
+    margin-top:1% !important;
+    font-size: 15px;
+}
+
+.links{
+    margin-top:2%;
+    font-size:16px;
+}
+
+.icon_i{
+    margin-top: 35%;
+}

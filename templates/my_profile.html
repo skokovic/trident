@@ -16,18 +16,18 @@
 				<div class="row">
 					 {% include 'navbar.html' %}
 				</div>
-				<div class="about_me">
+				<div class="about_me" style="box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);">
 					<div class="row username">
 						<div class="col-md-3"><img src={{my_picture}} height="80" width="auto"></div>
 						<div class="col-md-5">
 							<div class="row">
-								{{name}}{{lastname}}, &nbsp{{age}}
+								{{name}}{{lastname}}, &nbsp{{age}}, &nbsp {{gender}}
 							</div>
-							<div class="row">
+							<div class="row" style="margin-top:1%">
 								{{email}}
 							</div>
-							<div class="row">
-								{{location}}
+							<div class="row" style="margin-top:1%">
+								{{location}}Osijek
 							</div>
 						</div>
 						<div class="col-md-2">
@@ -37,12 +37,9 @@
 							<div class="row">
 								{{weather_info['description']}}
 							</div>
-							<div class="row">
-								{{gender}}
-							</div>
 						</div>
 						<div class="col-md-2">
-							<figure class="image is-50x50" style="margin-top: -10% !important">
+							<figure class="image is-50x50" style="margin-top: -10% !important; ">
 								<img src="{{ weather_info['icon'] }}" alt="Unavailable location" width="70" height="auto">
 							</figure>
 						</div>
@@ -54,13 +51,12 @@
 						{%for movie in reccomendation%}
 							<div class="div_scroll">
                                 <a href="/movie_info<{{ movie['imdbID'] }}>">
-                                    <img src="{{movie['image']}}" height="300" width="auto">
+                                    <img src="{{movie['image']}}" height="300" width="auto" style="box-shadow: 1px 1px 4px 4px rgba(256,256,256, 0.2), 0 3px 20px 0 rgba(256,256,256, 0.2);">
                                 </a>
-                                <div>
+                                <div style="margin-top: 5%;">
 									{{movie['title']}}
                                 </div>
 							</div>
-
 						{% endfor %}
 					</div>
 				</div>
