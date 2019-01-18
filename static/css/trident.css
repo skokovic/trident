@@ -211,6 +211,10 @@ body{
     width: 100vw !important;
 }
 
+.point:hover{
+    cursor: pointer;
+   }
+
 .text_bg{
     
 }

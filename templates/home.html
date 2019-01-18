@@ -40,9 +40,9 @@
                                             </a>
 											<div class="carousel-caption">
 													<h1>
-														<i id="like0" onclick="like_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-heart"></i>
+														<i id="like0" onclick="like_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-heart point"></i>
 														<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>									
-														<i id="dislike0" onclick="dislike_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-times-circle"></i>
+														<i id="dislike0" onclick="dislike_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-times-circle point"></i>
 													</h1>
 													<p>
 														{{movie['overview']}}
@@ -59,9 +59,9 @@
 												</a>
 												<div class="carousel-caption">
 														<h1>
-															<i id="like{{loop.index}}" onclick="like_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-heart"></i>
+															<i id="like{{loop.index}}" onclick="like_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-heart point"></i>
 															<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>									
-															<i id="dislike{{loop.index}}" onclick="dislike_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-times-circle"></i>
+															<i id="dislike{{loop.index}}" onclick="dislike_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-times-circle point"></i>
 														</h1>
 														<p>
 															{{movie['overview']}}
