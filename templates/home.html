@@ -39,9 +39,9 @@
                                             </a>
 											<div class="carousel-caption">
 													<h1>
-														<i onclick="like_click('{{movie['id']}}')" class="far fa-heart"></i>
+														<i id="like0" onclick="like_click('{{movie['id']}}, {{loop.index}}')" class="far fa-heart"></i>
 														<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>									
-														<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle"></i>
+														<i id="dislike0" onclick="dislike_click('{{movie['id']}},{{loop.index}}')" class="far fa-times-circle"></i>
 													</h1>
 											</div>
 										</div>
@@ -55,9 +55,9 @@
 												</a>
 												<div class="carousel-caption">
 														<h1>
-															<i onclick="like_click('{{movie['id']}}')" class="far fa-heart"></i>
+															<i id="like{{loop.index}}" onclick="like_click('{{movie['id']}}, {{loop.index}}')" class="far fa-heart"></i>
 															<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>									
-															<i onclick="dislike_click('{{movie['id']}}')" class="far fa-times-circle"></i>
+															<i id="{{loop.index}}" onclick="dislike_click('{{movie['id']}}, {{loop.index}}')" class="far fa-times-circle"></i>
 														</h1>
 												</div>
 											</div>
@@ -98,7 +98,7 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 
-   function like_click(movie){
+   function like_click(movie, index){
 
 		$.ajax({
 			type: "POST",
@@ -108,13 +108,14 @@
 			dataType: "json",
 			success: function(response) {
 				console.log(response);
+				$(`#like${index}`).toggleClass("fas far");
 			},
 			error: function(err) {
 				console.log(err);
 			}
 		});
    }
-   function dislike_click(movie){
+   function dislike_click(movie, index){
 		$.ajax({
 			type: "POST",
 			url: "{{ url_for("movie") }}",
@@ -122,7 +123,7 @@
 			data: JSON.stringify({movie: movie, like: false}),
 			dataType: "json",
 			success: function(response) {
-				console.log(response);
+				$(`#dislike${index}`).toggleClass("fas far");
 			},
 			error: function(err) {
 				console.log(err);
