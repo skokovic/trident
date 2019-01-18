@@ -20,7 +20,7 @@
 		    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 		      <a class="dropdown-item" href="trending.html">Discover</a>
 		      <a class="dropdown-item" href="recommendations.html">Recommendations</a>
-            </div>
+        </div>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" href="my_profile">{{current_user.first_name}} <span class="sr-only">(current)</span></a>
@@ -31,6 +31,7 @@
 			  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search movies</button>
 		</form>
 		{% else %}
+		</ul>
 		{% endif %}
 		{% if current_user.is_authenticated %}
 				<form action="/logout" class="form-inline my-1 my-lg-0" style="margin-left:5%">
