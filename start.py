@@ -356,6 +356,13 @@ def movie_data(imdbid):
         soundtrack = lastfmc.get_movie_album("album.search", {"album": soundtrack_title})
         soundtrack = soundtrack[:-1]
 
+        if response["Ratings"]:
+            rating_source = response["Ratings"][0]["Source"]
+            rating_value = response["Ratings"][0]["Value"]
+        else:
+            rating_source = 'N/A'
+            rating_value = 'N/A'
+
         movie_info_var = {
             'imdbID': response['imdbID'],
             'title': response["Title"],
@@ -367,8 +374,8 @@ def movie_data(imdbid):
             'actors': response["Actors"],
             'plot': response["Plot"],
             'awards': response["Awards"],
-            'rating_source': response["Ratings"][0]["Source"],
-            'rating_value': response["Ratings"][0]["Value"],
+            'rating_source': rating_source,
+            'rating_value': rating_value,
             'image': response['Poster'],
             'soundtrack': soundtrack,
             'trailer' : trailer
