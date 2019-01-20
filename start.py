@@ -26,7 +26,7 @@ dbName = '\0'
 app.debug = DEBUG
 SECRET_KEY = "123"
 app.secret_key = SECRET_KEY
-tmdbKey: str = "b2dd64617f8c64de2a3c3c0ada9f73ec"
+tmdbKey = "b2dd64617f8c64de2a3c3c0ada9f73ec"
 tmdb.API_KEY = tmdbKey
 
 GOOGLE_CLIENT_ID = '921408924262-0vsai1m9gru3c3k6qoepn25pe2bepppu.apps.googleusercontent.com'
@@ -142,7 +142,7 @@ def home():
         liked_movies = user['movie_likes']
         for movie in upcoming:
             for m in liked_movies:
-                if movie.get('id', None) == m.get('movie', None)
+                if movie.get('id', None) == m.get('movie', None):
                     movie.update({ 'like': m.get('like', None) })
     return render_template('home.html', upcoming=upcoming)
 
