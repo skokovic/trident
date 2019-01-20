@@ -125,24 +125,25 @@ class LastFM:
 
         response_data = self.send_request(args)
 
-        # Get the first artist from the JSON response and print their name
-        album = response_data["results"]["albummatches"]["album"][0]
-        print(album["artist"] + " - " + album["name"])
-        print(album["url"])
-
-        conn = urlopen(album["url"])
-        html = conn.read()
-
-        soup = BeautifulSoup(html)
-        links = soup.find_all('a')
-
         youtube_links = []
 
-        for tag in links:
-            link = tag.get('href', None)
-            if link is not None:
-                if "www.youtube.com" in link:
-                    youtube_links.append(link)
+        # Get the first artist from the JSON response and print their name
+        if response_data["results"]["albummatches"]["album"] is not None:
+            album = response_data["results"]["albummatches"]["album"][0]
+            print(album["artist"] + " - " + album["name"])
+            print(album["url"])
+
+            conn = urlopen(album["url"])
+            html = conn.read()
+
+            soup = BeautifulSoup(html)
+            links = soup.find_all('a')
+
+            for tag in links:
+                link = tag.get('href', None)
+                if link is not None:
+                    if "www.youtube.com" in link:
+                        youtube_links.append(link)
 
 
         return(youtube_links)
