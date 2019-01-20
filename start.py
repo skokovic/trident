@@ -319,9 +319,9 @@ def movie():
     data = request.get_json()
     data['social_id'] = user_id
     if "facebook$" in user_id:
-        baza.db.Users.update({'social_id' : user_id}, {'$set' :  {'movie_likes' : {'movie': int(data['movie']), 'like': data['like']}}}, upsert = True)
+        baza.db.Users.update({'social_id' : user_id}, {'$push' :  {'movie_likes' : {'movie': int(data['movie']), 'like': data['like']}}}, upsert = True)
     else:
-        baza.db.Users.update({'user_id' : int(user_id)}, {'$set' :  {'movie_likes' : {'movie': int(data['movie']), 'like': data['like']}}}, upsert = True)
+        baza.db.Users.update({'user_id' : int(user_id)}, {'$push' :  {'movie_likes' : {'movie': int(data['movie']), 'like': data['like']}}}, upsert = True)
     return jsonify(status="success", data=data)
 
 
