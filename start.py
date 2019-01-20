@@ -137,7 +137,7 @@ def google_page():
 @app.route('/home')
 def home():
     upcoming = movie_statistic.get_most_popular_movies_today(10)
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         user = fetch_right_user(current_user.get_id())
         liked_movies = user['movie_likes']
         for movie in upcoming:
