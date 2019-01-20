@@ -137,7 +137,13 @@ def google_page():
 @app.route('/home')
 def home():
     upcoming = movie_statistic.get_most_popular_movies_today(10)
-    print(upcoming)
+    if current_user.is_authenticated:
+        user = fetch_right_user(current_user.get_id)
+        liked_movies = user['movie_likes']
+        for movie in upcoming:
+            for m in liked_movies:
+                if movie.get('id', None) == m.get('movie', None)
+                    movie.update({ 'like': m.get('like', None) })
     return render_template('home.html', upcoming=upcoming)
 
 
