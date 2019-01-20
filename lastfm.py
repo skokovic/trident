@@ -128,7 +128,7 @@ class LastFM:
         youtube_links = []
 
         # Get the first artist from the JSON response and print their name
-        if not response_data["results"]["albummatches"]["album"]:
+        if response_data["results"]["albummatches"]["album"]:
             album = response_data["results"]["albummatches"]["album"][0]
             print(album["artist"] + " - " + album["name"])
             print(album["url"])
