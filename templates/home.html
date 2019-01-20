@@ -42,15 +42,15 @@
 													<h1>
 														{% if current_user.is_authenticated %}
 															{% if movie['like'] == true %}
-																<i id="like0" onclick="like_click('{{movie['id']}}', '{{loop.index}}')" class="fas fa-heart point"></i>
+																<i id="like{{loop.index}}" onclick="like_click('{{movie['id']}}', '{{loop.index}}')" class="fas fa-heart point"></i>
 															{% else %}
-																<i id="like0" onclick="like_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-heart point"></i>
+																<i id="like{{loop.index}}" onclick="like_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-heart point"></i>
 															{% endif %}
 															<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>
 															{% if movie['like'] == false %}									
-																<i id="dislike0" onclick="dislike_click('{{movie['id']}}', '{{loop.index}}')" class="fas fa-times-circle point"></i>
+																<i id="dislike{{loop.index}}" onclick="dislike_click('{{movie['id']}}', '{{loop.index}}')" class="fas fa-times-circle point"></i>
 															{% else %}
-																<i id="dislike0" onclick="dislike_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-times-circle point"></i>
+																<i id="dislike{{loop.index}}" onclick="dislike_click('{{movie['id']}}', '{{loop.index}}')" class="far fa-times-circle point"></i>
 															{% endif %}
 														{% else %}
 															<span style="padding-left: 150px; padding-right: 150px">{{movie['title']}}</span>
