@@ -234,7 +234,8 @@ def profile():
         list_of_movie_info.append(movie_data(json_data['imdb_id']))
 
     # quick fix for duplicate movies in 
-    list_of_movie_info = list(set(list_of_movie_info))
+    list({v['imdbID']:v for v in list_of_movie_info}.values())
+    #list_of_movie_info = list(set(list_of_movie_info))
 
     random_cities = ['London', 'Rio de Janeiro', 'Los Angeles', 'Tokyo', 'Sidney']
     recommendation = list_of_movie_info
