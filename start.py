@@ -226,6 +226,7 @@ def profile():
         my_picture = "https://fignow.com/public_html/fignow.com/wp-content/uploads/2016/12/Unknown.jpg"
 
     recommendation = user['movie_likes']
+    recommendation = [m for m in recommendation if not (True == m.get('like'))]
 
     list_of_movie_info = []
     for movie_id in recommendation:
