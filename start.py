@@ -233,6 +233,9 @@ def profile():
         # TODO append if db.user.movie_likes.search(json_data['id']) is not None
         list_of_movie_info.append(movie_data(json_data['imdb_id']))
 
+    # quick fix for duplicate movies in 
+    list_of_movie_info = list(set(list_of_movie_info))
+
     random_cities = ['London', 'Rio de Janeiro', 'Los Angeles', 'Tokyo', 'Sidney']
     recommendation = list_of_movie_info
     if location is not None:
@@ -308,9 +311,9 @@ def movie():
     data = request.get_json()
     data['social_id'] = user_id
     if "facebook$" in user_id:
-        baza.db.Users.update({'social_id' : user_id}, {'$push' :  {'movie_likes' : {'movie': int(data['movie']), 'like': data['like']}}}, upsert = True)
+        baza.db.Users.update({'social_id' : user_id}, {'$set' :  {'movie_likes' : {'movie': int(data['movie']), 'like': data['like']}}}, upsert = True)
     else:
-        baza.db.Users.update({'user_id' : int(user_id)}, {'$push' :  {'movie_likes' : {'movie': int(data['movie']), 'like': data['like']}}}, upsert = True)
+        baza.db.Users.update({'user_id' : int(user_id)}, {'$set' :  {'movie_likes' : {'movie': int(data['movie']), 'like': data['like']}}}, upsert = True)
     return jsonify(status="success", data=data)
 
 
