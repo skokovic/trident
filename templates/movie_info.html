@@ -39,12 +39,22 @@
                                     </div>
                                     <div class="col-md-1">
                                          {% if current_user.is_authenticated %}
-                                        <i id="like0" onclick="like_click('{{movie_info.title}}')" class="far fa-heart point icon_i"></i>
+                                            {% if movie['like'] == true %}
+                                                <i id="like0" onclick="like_click('{{movie['id']}}')" class="fas fa-heart point icon_i"></i>
+                                            {% else %}
+                                                <i id="like0" onclick="like_click('{{movie['id']}}')" class="far fa-heart point icon_i"></i>
+                                            {% endif %}
+                                        <!-- <i id="like0" onclick="like_click('{{movie_info.title}}')" class="far fa-heart point icon_i"></i> -->
                                         {% endif %}
                                     </div>
                                     <div class="col-md-1">
                                          {% if current_user.is_authenticated %}
-                                        <i id="dislike0" onclick="dislike_click('{{movie_info.title}}')" class="icon_i far fa-times-circle point"></i>
+                                            {% if movie['like'] == false %}
+                                                <i id="dislike0" onclick="like_click('{{movie['id']}}')" class="icon_i fas fa-times-circle point"></i>
+                                            {% else %}
+                                                <i id="dislike0" onclick="like_click('{{movie['id']}}')" class="icon_i far fa-times-circle point"></i>
+                                            {% endif %}
+                                        <!-- <i id="dislike0" onclick="dislike_click('{{movie_info.title}}')" class="icon_i far fa-times-circle point"></i> -->
                                         {% endif %}
                                     </div>
                                 </div>
@@ -115,7 +125,8 @@
 			data: JSON.stringify({movie: movie, like: true}),
 			dataType: "json",
 			success: function(response) {
-				console.log(response);
+                console.log(response);
+                $(`#like${index}`).toggleClass("fas far");
 			},
 			error: function(err) {
 				console.log(err);
@@ -130,7 +141,8 @@
 			data: JSON.stringify({movie: movie, like: false}),
 			dataType: "json",
 			success: function(response) {
-				console.log(response);
+                console.log(response);
+                $(`#dislike${index}`).toggleClass("fas far");
 			},
 			error: function(err) {
 				console.log(err);
