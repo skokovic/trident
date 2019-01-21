@@ -51,7 +51,7 @@ REDIRECT_URI = "/google_page"
 
 @app.route('/google')
 def log():
-    callback = url_for('authorized', _external=True)
+    callback = url_for('authorized', _external=True, _scheme='https')
     return google.authorize(callback=callback)
 
 
