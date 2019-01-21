@@ -39,20 +39,20 @@
                                     </div>
                                     <div class="col-md-1">
                                          {% if current_user.is_authenticated %}
-                                            {% if movie['like'] == true %}
-                                                <i id="like0" onclick="like_click('{{movie['id']}}')" class="fas fa-heart point icon_i"></i>
+                                            {% if movie_info['like'] == true %}
+                                                <i id="like0" onclick="like_click('{{movie_info['id']}}')" class="fas fa-heart point icon_i"></i>
                                             {% else %}
-                                                <i id="like0" onclick="like_click('{{movie['id']}}')" class="far fa-heart point icon_i"></i>
+                                                <i id="like0" onclick="like_click('{{movie_info['id']}}')" class="far fa-heart point icon_i"></i>
                                             {% endif %}
                                         <!-- <i id="like0" onclick="like_click('{{movie_info.title}}')" class="far fa-heart point icon_i"></i> -->
                                         {% endif %}
                                     </div>
                                     <div class="col-md-1">
                                          {% if current_user.is_authenticated %}
-                                            {% if movie['like'] == false %}
-                                                <i id="dislike0" onclick="like_click('{{movie['id']}}')" class="icon_i fas fa-times-circle point"></i>
+                                            {% if movie_info['like'] == false %}
+                                                <i id="dislike0" onclick="like_click('{{movie_info['id']}}')" class="icon_i fas fa-times-circle point"></i>
                                             {% else %}
-                                                <i id="dislike0" onclick="like_click('{{movie['id']}}')" class="icon_i far fa-times-circle point"></i>
+                                                <i id="dislike0" onclick="like_click('{{movie_info['id']}}')" class="icon_i far fa-times-circle point"></i>
                                             {% endif %}
                                         <!-- <i id="dislike0" onclick="dislike_click('{{movie_info.title}}')" class="icon_i far fa-times-circle point"></i> -->
                                         {% endif %}
