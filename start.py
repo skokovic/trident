@@ -409,6 +409,12 @@ def movie_info(imdbID):
     movie_info_var = movie_data(imdbID)
     tmdb_movie_info = tmdb.Movies(id=imdbID).info()
     movie_info_var['id'] = tmdb_movie_info['id']
+    if current_user.is_authenticated:
+        user = fetch_right_user(current_user.get_id())
+        liked_movies = user['movie_likes']
+        for m in liked_movies:
+            if movie_info_var.get('id', None) == m.get('movie', None):
+                movie_info_var.update({ 'like': m.get('like', None) })
 
     return render_template('movie_info.html', movie_info=movie_info_var)
 
