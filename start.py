@@ -407,6 +407,8 @@ def movie_info(imdbID):
 
     print(imdbID)
     movie_info_var = movie_data(imdbID)
+    tmdb_movie_info = tmdb.Movies(id=imdbID)
+    movie_info_var['id'] = tmdb_movie_info['id']
 
     return render_template('movie_info.html', movie_info=movie_info_var)
 
