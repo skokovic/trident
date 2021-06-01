@@ -28,7 +28,7 @@ requests==2.21.0
 six==1.12.0
 soupsieve==1.7.1
 tmdbsimple==2.2.0
-urllib3==1.24.1
+urllib3==1.26.5
 urlparse2==1.1.1
 visitor==0.1.3
 Werkzeug==0.14.1
